@@ -1,0 +1,4 @@
+<h2>Canvas is below</h2>
+<p>Width = {{canvasWidth}}, height = {{canvasHeight}}, clickinfo = {{ clickedInfo}}</p>
+<div (window:resize)="onResize()"></div>
+<canvas #myCanvas (click)='handleClick($event)' style="background:#fab;" width="1000" height="1000"></canvas>
