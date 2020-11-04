@@ -1,11 +1,11 @@
 # CanvasGrid
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 7.3.9.
+Show grid of cells that are clickable. 
 
-## Development server
+## Versions
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
-
-## Code scaffolding
-
-This project demonstrates coloring cells. Clicking on a cell makes the cell blue, thus indicating that coloring individual cells is easily done. 
+* DONE: v1 - canvas-grid -- all grids are computed and have the same size
+* DONE: v2 - upgrade from Angular 7 to 10
+* DOING: v3 - canvas-variable-grid -- size of grids is determined by the input data
+* TODO: v4 - map grids above openlayers map  
+* TODO: v5 - working with GeoJson input
