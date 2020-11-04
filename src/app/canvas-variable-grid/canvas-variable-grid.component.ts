@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
+import {GridCell} from "../gridcell.model";
 
 @Component({
-  selector: 'app-canvas-grid',
-  templateUrl: './canvas-grid.component.html',
-  styleUrls: ['./canvas-grid.component.css']
+  selector: 'app-canvas-variable-grid',
+  templateUrl: './canvas-variable-grid.component.html',
+  styleUrls: ['./canvas-variable-grid.component.css']
 })
-export class CanvasGridComponent implements OnInit {
+export class CanvasVariableGridComponent implements OnInit {
   @ViewChild('myCanvas', {static: true}) canvas;
   canvasWidth = '<unknown>';
   canvasHeight = '<unknown>';
@@ -15,8 +16,8 @@ export class CanvasGridComponent implements OnInit {
   canvasHeigthPx = 1000;
   clickedInfo = 'Nothing clicked yet';
 
-  rowCellHeight = this.canvasHeigthPx / this.cellRows;
-  colCellWidth = this.canvasWidthPx / this.cellColumns;
+  rowCellHeight = 10;
+  colCellWidth = 10;
 
   onResize() {
     this.computeWidthAndHeight();
@@ -43,6 +44,8 @@ export class CanvasGridComponent implements OnInit {
   ngOnInit() {
     this.computeWidthAndHeight();
     this.drawGrid();
+    const cells = this.generateSomeDynamicCells();
+    this.drawDynamicMinMaxGridCells( cells);
   }
 
   drawGrid() {
@@ -63,11 +66,29 @@ export class CanvasGridComponent implements OnInit {
     ctx.fillRect(col * this.colCellWidth, row * this.rowCellHeight, this.colCellWidth, this.rowCellHeight);
   }
 
+  drawDynamicMinMaxGridCells( dynoCells: GridCell[]) {
+    const canvasElement = this.canvas.nativeElement;
+    const ctx = canvasElement.getContext('2d');
+    dynoCells.forEach(item => {
+      ctx.fillStyle = item.color;
+      ctx.fillRect( item.xmin, item.ymin, item.xmax - item.xmin, item.ymax - item.ymin);
+    });
+  }
+
   handleClick(event: MouseEvent): void {
     const clickedRow = Math.floor((event.offsetY / this.rowCellHeight));
     const clickedCol = Math.floor((event.offsetX / this.colCellWidth));
     this.clickedInfo = 'row = ' + clickedRow + ', col = ' + clickedCol;
     this.drawCell(clickedRow, clickedCol);
+  }
+
+  generateSomeDynamicCells(): GridCell[] {
+    const cells: GridCell[] = [];
+    let cell = new GridCell( 40, 40, 100, 100, 'F');
+    cells.push( cell);
+    cell = new GridCell( 140, 140, 200, 200, 'S');
+    cells.push( cell);
+    return cells;
   }
 
 }

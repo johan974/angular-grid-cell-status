@@ -7,4 +7,5 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'canvas-grid';
+  public isCollapsed = true;
 }
