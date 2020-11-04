@@ -9,3 +9,10 @@ Show grid of cells that are clickable.
 * DONE: v3 - canvas-variable-grid -- size of grids is determined by the input data
 * DOING: v4 - map grids above openlayers map  
 * TODO: v5 - working with GeoJson input
+
+## Openlayers install
+
+*  $ npm install ol --save
+*  Add to angular.json: styles [ ... "node_modules/ol/ol.css", "styles.css"]
+*  Look at the component openlayers-polygon
+
