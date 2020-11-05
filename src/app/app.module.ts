@@ -7,13 +7,15 @@ import { CanvasGridComponent } from './canvas-grid/canvas-grid.component';
 import { CanvasVariableGridComponent } from './canvas-variable-grid/canvas-variable-grid.component';
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OpenlayersPolygonComponent } from './openlayers-polygon/openlayers-polygon.component';
+import { OpenlayersPolygonRdComponent } from './openlayers-polygon-rd/openlayers-polygon-rd.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     CanvasGridComponent,
     CanvasVariableGridComponent,
-    OpenlayersPolygonComponent
+    OpenlayersPolygonComponent,
+    OpenlayersPolygonRdComponent
   ],
   imports: [
     BrowserModule,
