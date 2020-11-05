@@ -8,6 +8,7 @@ import { CanvasVariableGridComponent } from './canvas-variable-grid/canvas-varia
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OpenlayersPolygonComponent } from './openlayers-polygon/openlayers-polygon.component';
 import { OpenlayersPolygonRdComponent } from './openlayers-polygon-rd/openlayers-polygon-rd.component';
+import { OpenlayersPolygonRdBrtComponent } from './openlayers-polygon-rd-brt/openlayers-polygon-rd-brt.component';
 
 @NgModule({
   declarations: [
@@ -15,7 +16,8 @@ import { OpenlayersPolygonRdComponent } from './openlayers-polygon-rd/openlayers
     CanvasGridComponent,
     CanvasVariableGridComponent,
     OpenlayersPolygonComponent,
-    OpenlayersPolygonRdComponent
+    OpenlayersPolygonRdComponent,
+    OpenlayersPolygonRdBrtComponent
   ],
   imports: [
     BrowserModule,

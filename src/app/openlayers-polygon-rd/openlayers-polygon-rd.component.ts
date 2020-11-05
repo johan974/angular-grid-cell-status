@@ -13,6 +13,9 @@ import Vector from "ol/layer/Vector";
 import { Fill, Stroke, Style } from "ol/style";
 import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
+import {Projection} from 'ol/proj';
+import {addProjection} from 'ol/proj';
+
 
 @Component({
   selector: 'app-openlayers-polygon-rd',
@@ -24,20 +27,20 @@ export class OpenlayersPolygonRdComponent implements AfterViewInit {
   map: Map;
   coordinatesPolygon = [
     [
-      [5.1234, 52.12345],
-      [5.1234, 51.12345],
-      [8.1234, 51.12345],
-      [8.1234, 52.12345],
-      [5.1234, 52.12345]
+      [5.1234, 52.42345],
+      [5.1234, 52.22345],
+      [6.1234, 52.22345],
+      [6.1234, 52.42345],
+      [5.1234, 52.42345]
     ]
   ];
   coordinatesPolygonInRd = [
     [
-      [5.1234, 52.12345],
-      [5.1234, 51.12345],
-      [8.1234, 51.12345],
-      [8.1234, 52.12345],
-      [5.1234, 52.12345]
+      [173563, 441818],
+      [173063, 441818],
+      [173063, 444318],
+      [173563, 444318],
+      [173563, 441818]
     ]
   ];
 
@@ -80,10 +83,26 @@ export class OpenlayersPolygonRdComponent implements AfterViewInit {
       ])
     });
     this.addPolygon();
+    this.addPolygonInRd();
   }
 
   addPolygon() {
+    // WORKS !!
     const geometry = new Polygon( this.coordinatesPolygon).transform( "EPSG:4326", this.map.getView().getProjection());
+    this.vectorLayer.getSource().addFeature(new Feature(geometry));
+  }
+
+  addPolygonInRd() {
+    // TODO - does not work yet ...
+    const projectionExtentRd = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];
+    let projectionRd = new Projection({
+      code: "EPSG:28992",
+      units: "m",
+      extent: projectionExtentRd
+    });
+    addProjection(projectionRd);
+
+    const geometry = new Polygon( this.coordinatesPolygonInRd).transform( "EPSG:28992", this.map.getView().getProjection());
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 }
