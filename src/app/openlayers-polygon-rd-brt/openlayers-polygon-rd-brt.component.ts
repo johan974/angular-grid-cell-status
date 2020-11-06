@@ -10,7 +10,14 @@ import Projection from 'ol/proj/Projection';
 import TileWMS from 'ol/source/TileWMS';
 import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
-import {addProjection} from 'ol/proj';
+import {addProjection, fromLonLat} from 'ol/proj';
+
+import proj4 from 'proj4';
+import {register}  from 'ol/proj/proj4';
+import {get as GetProjection} from 'ol/proj'
+import {Tile} from "ol/layer";
+import XYZ from "ol/source/XYZ";
+import Attribution from "ol/control/Attribution";
 
 @Component({
   selector: 'app-openlayers-polygon-rd-brt',
@@ -23,11 +30,11 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
   myprojection: Projection;
   coordinatesPolygon = [
     [
-      [5.1234, 52.12345],
-      [5.1234, 51.12345],
-      [8.1234, 51.12345],
-      [8.1234, 52.12345],
-      [5.1234, 52.12345]
+      [5.1234, 51.92345],
+      [5.1234, 51.72345],
+      [6.1234, 51.72345],
+      [6.1234, 51.92345],
+      [5.1234, 51.92345]
     ]
   ];
   coordinatesPolygonInRd = [
@@ -53,64 +60,82 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
     let vectorSource = new VectorSource({features: []});
     this.vectorLayer = new Vector({
       source: vectorSource,
-      styles: [polygonStyle]
+      style: [polygonStyle]
     });
 
-    let topNLWMS = new TileLayer({
-      visible: true,
-      opacity: 0.7,
-      source: new TileWMS({
-        url: 'https://geodata.nationaalgeoregister.nl/top10nlv2/wms',
-        params: {
-          LAYERS: 'top10nlv2',
-          CRS: "EPSG:28992",
-          tiled: true
-        }
-      })
-    });
-
-    let projectionExtent = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];
+    // let topNLWMS = new TileLayer({
+    //   visible: true,
+    //   opacity: 0.7,
+    //   source: new TileWMS({
+    //     url: 'https://geodata.nationaalgeoregister.nl/top10nlv2/wms',
+    //     params: {
+    //       LAYERS: 'top10nlv2',
+    //       CRS: "EPSG:28992",
+    //       tiled: true
+    //     }
+    //   })
+    // });
     this.myprojection = new Projection({
       code: "EPSG:28992",
       units: "m",
-      extent: projectionExtent
+      extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
     });
 
-    let mapView = new View({
-      minZoom: 3,
-      maxZoom: 15,
-      projection: this.myprojection,
-      center: [173563, 441818],
-      zoom: 9,
+    this.map = new Map({
+      layers: [
+        new Tile({
+          source: new XYZ({
+            url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
+          })
+        }), this.vectorLayer
+      ],
+      view: new View({
+        // projection: this.myprojection,
+        center: fromLonLat([5.266524, 52.073253]),
+        // center: [173563, 441818],
+        zoom: 10
+      }),
+      target: "map"
     });
+
+    // let mapView = new View({
+    //   minZoom: 3,
+    //   maxZoom: 15,
+    //   projection: this.myprojection,
+    //   center: [173563, 441818],
+    //   zoom: 9,
+    // });
 
     // TODO - only zoomed in, NOT lower zooming levels
-    this.map = new Map({
-      target: "map",
-      controls: [],
-      layers: [topNLWMS, this.vectorLayer],
-      view: mapView
-    });
+    // this.map = new Map({
+    //   target: "map",
+    //   controls: [],
+    //   layers: [topNLWMS, this.vectorLayer],
+    //   view: mapView
+    // });
     this.addPolygon();
     this.addPolygonInRd();
   }
 
   addPolygon() {
     // TODO - does not work yet
-    const projectionExtentRd = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];
     let projectionRd = new Projection({
       code: "EPSG:28992",
       units: "m",
-      extent: projectionExtentRd
+      extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
     });
     addProjection(projectionRd);
-    const geometry = new Polygon(this.coordinatesPolygon).transform("EPSG:4326", this.map.getView().getProjection());
+    // proj4.defs("EPSG:3857","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs");
+    const geometry = new Polygon(this.coordinatesPolygonInRd).transform("EPSG:28992", this.map.getView().getProjection());
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 
   addPolygonInRd() {
+    // WORKED before !!
+    // const geometry = new Polygon(this.coordinatesPolygonInRd);
+    // this.vectorLayer.getSource().addFeature(new Feature(geometry));
     // WORKS !!
-    const geometry = new Polygon(this.coordinatesPolygonInRd);
+    const geometry = new Polygon( this.coordinatesPolygon).transform( "EPSG:4326", this.map.getView().getProjection());
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 }

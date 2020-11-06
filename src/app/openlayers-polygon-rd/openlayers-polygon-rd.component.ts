@@ -13,8 +13,11 @@ import Vector from "ol/layer/Vector";
 import { Fill, Stroke, Style } from "ol/style";
 import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
-import {Projection} from 'ol/proj';
+import Projection from 'ol/proj/Projection';
 import {addProjection} from 'ol/proj';
+import proj4 from "proj4";
+import {register} from "ol/proj/proj4";
+import {get as GetProjection} from 'ol/proj'
 
 
 @Component({
@@ -57,7 +60,7 @@ export class OpenlayersPolygonRdComponent implements AfterViewInit {
     let vectorSource = new VectorSource({features: []});
     this.vectorLayer = new Vector({
       source: vectorSource,
-      styles: [polygonStyle]
+      style: [polygonStyle]
     });
     this.map = new Map({
       target: "map",
@@ -94,15 +97,27 @@ export class OpenlayersPolygonRdComponent implements AfterViewInit {
 
   addPolygonInRd() {
     // TODO - does not work yet ...
-    const projectionExtentRd = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];
-    let projectionRd = new Projection({
-      code: "EPSG:28992",
-      units: "m",
-      extent: projectionExtentRd
-    });
-    addProjection(projectionRd);
+    // const projectionExtentRd = [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999];
+    // let projectionRd = new Projection({
+    //   code: "EPSG:28992",
+    //   units: "m",
+    //   extent: projectionExtentRd
+    // });
+    // addProjection(projectionRd);
+    // let dutchProjection = new Projection({
+    //   code: 'EPSG:28992',
+    //   extent: [-285401.92, 22598.08, 595402.0, 903402.0],
+    //   worldExtent: [3.2, 50.75, 7.22, 53.7],
+    //   units: 'm'
+    // });
+    // addProjection(dutchProjection);
 
-    const geometry = new Polygon( this.coordinatesPolygonInRd).transform( "EPSG:28992", this.map.getView().getProjection());
+    //proj4.defs("EPSG:28992","+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000 +ellps=bessel +towgs84=565.417,50.3319,465.552,-0.398957,0.343988,-1.8774,4.0725 +units=m +no_defs");
+
+    proj4.defs["EPSG:28992"] = "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs";
+    register(proj4)
+    let dutchProjection = GetProjection('EPSG:28992');
+    const geometry = new Polygon( this.coordinatesPolygonInRd).transform( 'EPSG:28992', this.map.getView().getProjection());
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 }

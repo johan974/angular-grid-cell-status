@@ -43,7 +43,7 @@ export class OpenlayersPolygonComponent implements AfterViewInit {
     let vectorSource = new VectorSource({features: []});
     this.vectorLayer = new Vector({
       source: vectorSource,
-      styles: [polygonStyle]
+      style: [polygonStyle]
     });
     this.map = new Map({
       target: "map",
