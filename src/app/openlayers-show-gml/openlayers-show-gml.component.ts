@@ -6,20 +6,16 @@ import VectorSource from "ol/source/Vector";
 import Vector from "ol/layer/Vector";
 import {Fill, Stroke, Style} from "ol/style";
 import Projection from 'ol/proj/Projection';
-import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
-import {get as GetProjection} from 'ol/proj';
-
-import proj4 from 'proj4';
-import {register} from 'ol/proj/proj4';
-import {Tile} from "ol/layer";
 import XYZ from "ol/source/XYZ";
 
-import {HttpClient, HttpErrorResponse, HttpHeaders} from '@angular/common/http';
-import {WFS} from "ol/format";
+import {HttpClient} from '@angular/common/http';
 
 import GML3 from 'ol/format/GML3';
 import Geometry from "ol/geom/Geometry";
+import TileLayer from "ol/layer/Tile";
+import {defaults as defaultControls} from "ol/control";
+import ZoomToExtent from "ol/control/ZoomToExtent";
 
 @Component({
   selector: 'app-openlayers-show-gml',
@@ -29,7 +25,12 @@ import Geometry from "ol/geom/Geometry";
 export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
   fileText: string;
   gmlFeatures: Feature<Geometry>[];
-  constructor(private httpClient: HttpClient) {}
+  vectorLayer: Vector;
+  map: Map;
+  myprojection: Projection;
+
+  constructor(private httpClient: HttpClient) {
+  }
 
   ngOnInit(): void {
     this.httpClient.get('assets/file.gml', {responseType: 'text'})
@@ -44,11 +45,6 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
         }
       );
   }
-
-  vectorLayer: Vector;
-  map: Map;
-  myprojection: Projection;
-
 
   ngAfterViewInit() {
     let polygonStyle = new Style({
@@ -65,40 +61,34 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
       source: vectorSource,
       style: [polygonStyle]
     });
-    // const vectorSource = new VectorSource({
-    //   //url: 'assets/file.gml',
-    //   format: new WFS({ srsName: "EPSG:23030" }),
-    //   projection: 'EPSG:23030'
-    // });
-    // this.vectorLayer = new Vector({
-    //   source: vectorSource
-    // });
-
-    // proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
-    // register(proj4)
-    // let dutchProjection = GetProjection('EPSG:28992');
-
     this.map = new Map({
+      target: "map",
       layers: [
-        new Tile({
+        new TileLayer({
           source: new XYZ({
-            url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
+            url: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           })
-        }), this.vectorLayer
+        }),
+        this.vectorLayer
       ],
       view: new View({
-        projection: dutchProjection,
-        //center: fromLonLat([5.266524, 52.073253]),
-        center: [173563, 441818],
-        zoom: 10
+        center: [813079.7791264898, 5929220.284081122],
+        zoom: 7
       }),
-      target: "map"
+      controls: defaultControls().extend([
+        new ZoomToExtent({
+          extent: [
+            813079.7791264898, 5929220.284081122,
+            848966.9639063801, 5936863.986909639
+          ]
+        })
+      ])
     });
 
     this.addGmlFeatures();
   }
 
   addGmlFeatures() {
-    this.vectorLayer.getSource().addFeatures( this.gmlFeatures);
+    this.vectorLayer.getSource().addFeatures(this.gmlFeatures);
   }
 }
