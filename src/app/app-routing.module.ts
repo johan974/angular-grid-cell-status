@@ -6,6 +6,7 @@ import {OpenlayersPolygonComponent} from "./openlayers-polygon/openlayers-polygo
 import {OpenlayersPolygonRdComponent} from "./openlayers-polygon-rd/openlayers-polygon-rd.component";
 import {OpenlayersPolygonRdBrtComponent} from "./openlayers-polygon-rd-brt/openlayers-polygon-rd-brt.component";
 import {OpenlayersPolygonColrsRdBrtComponent} from "./openlayers-polygon-colrs-rd-brt/openlayers-polygon-colrs-rd-brt.component";
+import {OpenlayersShowGmlComponent} from "./openlayers-show-gml/openlayers-show-gml.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/canvas', pathMatch: 'full'},
@@ -15,6 +16,7 @@ const routes: Routes = [
   {path: 'olpolygonrd', component: OpenlayersPolygonRdComponent},
   {path: 'olpolygonrdbrt', component: OpenlayersPolygonRdBrtComponent},
   {path: 'olpolygoncolorsrdbrt', component: OpenlayersPolygonColrsRdBrtComponent},
+  {path: 'olshowgml', component: OpenlayersShowGmlComponent},
 ];
 
 @NgModule({

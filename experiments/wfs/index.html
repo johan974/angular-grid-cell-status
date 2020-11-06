@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset=utf-8>
+  <meta name=description content="">
+  <meta name=viewport content="width=device-width, initial-scale=1">
+  <title>Simple Map</title>
+  <link rel="stylesheet" href="https://openlayers.org/en/latest/css/ol.css" type="text/css">
+  <!-- The line below is only needed for old environments like Internet Explorer and Android 4.x -->
+  <script src="https://cdn.polyfill.io/v2/polyfill.min.js?features=requestAnimationFrame,Element.prototype.classList,URL"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/proj4js/2.2.1/proj4.js"></script>
+  <script src="http://epsg.io/23030.js"></script>
+  <script src="https://openlayers.org/en/latest/build/ol.js" type="text/javascript"></script>
+</head>
+<body>
+<div id="map" class="map"></div>
+<script>
+  var map = new ol.Map({
+    layers: [
+      new ol.layer.Tile({
+        source: new ol.source.OSM()
+      })
+    ],
+    target: 'map',
+    view: new ol.View({
+      center: [0, 0],
+      zoom: 2
+    })
+  });
+
+  const vectorSource = new ol.source.Vector({
+    url: 'file.gml',
+    format: new ol.format.WFS({
+      srsName: 'EPSG:23030'
+    }),
+    projection: 'EPSG:23030'
+  });
+  var vector = new ol.layer.Vector({
+    source: vectorSource
+  });
+  map.addLayer(vector);
+  vectorSource.on('change', e => {
+    if (vectorSource.getState() === 'ready') {
+      map.getView().fit(vectorSource.getExtent());
+    }
+  })
+</script>
+</body>
+</html>

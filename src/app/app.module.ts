@@ -10,6 +10,8 @@ import { OpenlayersPolygonComponent } from './openlayers-polygon/openlayers-poly
 import { OpenlayersPolygonRdComponent } from './openlayers-polygon-rd/openlayers-polygon-rd.component';
 import { OpenlayersPolygonRdBrtComponent } from './openlayers-polygon-rd-brt/openlayers-polygon-rd-brt.component';
 import { OpenlayersPolygonColrsRdBrtComponent } from './openlayers-polygon-colrs-rd-brt/openlayers-polygon-colrs-rd-brt.component';
+import { OpenlayersShowGmlComponent } from './openlayers-show-gml/openlayers-show-gml.component';
+import {HttpClientModule} from '@angular/common/http';
 
 @NgModule({
   declarations: [
@@ -19,12 +21,14 @@ import { OpenlayersPolygonColrsRdBrtComponent } from './openlayers-polygon-colrs
     OpenlayersPolygonComponent,
     OpenlayersPolygonRdComponent,
     OpenlayersPolygonRdBrtComponent,
-    OpenlayersPolygonColrsRdBrtComponent
+    OpenlayersPolygonColrsRdBrtComponent,
+    OpenlayersShowGmlComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
-    NgbModule
+    NgbModule,
+    HttpClientModule
   ],
   providers: [],
   bootstrap: [AppComponent]
