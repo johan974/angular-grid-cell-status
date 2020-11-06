@@ -4,13 +4,11 @@ Show grid of cells that are clickable.
 
 ## Versions
 
-* DONE: v1 - canvas-grid -- all grids are computed and have the same size
-* DONE: v2 - upgrade from Angular 7 to 10
-* DONE: v3 - canvas-variable-grid -- size of grids is determined by the input data
-* DONE: v4 - map polygons above openlayers map
-* DONE: OSM with R
-* DONE: RD projection - with RD coordinates  
-* TODO: v5 - working with GeoJson input
+* DONE: canvas-grid -- simple grid using JS without openlayers
+* DONE: canvas-variablegrid -- cells of various sizes using JS without openlayers
+* DONE: openlayers-polygon -- adding polygon to openlayers6
+* DONE: openlayers-polygon-rd -- adding polygon in RD projection
+* DONE: openlayers-polygon-rd-brt -- adding polygon to BRT map
 
 ## Openlayers install
 

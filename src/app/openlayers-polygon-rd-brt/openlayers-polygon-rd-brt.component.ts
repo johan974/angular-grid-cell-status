@@ -75,11 +75,14 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
     //     }
     //   })
     // });
-    this.myprojection = new Projection({
-      code: "EPSG:28992",
-      units: "m",
-      extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
-    });
+    // let dutchProjection = new Projection({
+    //   code: "EPSG:28992",
+    //   units: "m",
+    //   extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
+    // });
+    proj4.defs("EPSG:28992","+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
+    register(proj4)
+    let dutchProjection = GetProjection('EPSG:28992');
 
     this.map = new Map({
       layers: [
@@ -90,9 +93,9 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
         }), this.vectorLayer
       ],
       view: new View({
-        // projection: this.myprojection,
-        center: fromLonLat([5.266524, 52.073253]),
-        // center: [173563, 441818],
+        projection: dutchProjection,
+        //center: fromLonLat([5.266524, 52.073253]),
+        center: [173563, 441818],
         zoom: 10
       }),
       target: "map"
@@ -118,23 +121,16 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
   }
 
   addPolygon() {
-    // TODO - does not work yet
-    let projectionRd = new Projection({
-      code: "EPSG:28992",
-      units: "m",
-      extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
-    });
-    addProjection(projectionRd);
-    // proj4.defs("EPSG:3857","+proj=merc +a=6378137 +b=6378137 +lat_ts=0.0 +lon_0=0.0 +x_0=0.0 +y_0=0 +k=1.0 +units=m +nadgrids=@null +wktext  +no_defs");
-    const geometry = new Polygon(this.coordinatesPolygonInRd).transform("EPSG:28992", this.map.getView().getProjection());
+    // BOTH work !!!
+    const geometry = new Polygon(this.coordinatesPolygonInRd);
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
+
+    // With conversion
+    // const geometry = new Polygon(this.coordinatesPolygonInRd).transform("EPSG:28992", this.map.getView().getProjection());
+    // this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 
   addPolygonInRd() {
-    // WORKED before !!
-    // const geometry = new Polygon(this.coordinatesPolygonInRd);
-    // this.vectorLayer.getSource().addFeature(new Feature(geometry));
-    // WORKS !!
     const geometry = new Polygon( this.coordinatesPolygon).transform( "EPSG:4326", this.map.getView().getProjection());
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
