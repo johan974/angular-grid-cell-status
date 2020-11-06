@@ -4,11 +4,39 @@ Show grid of cells that are clickable.
 
 ## Versions
 
-* DONE: canvas-grid -- simple grid using JS without openlayers
-* DONE: canvas-variablegrid -- cells of various sizes using JS without openlayers
-* DONE: openlayers-polygon -- adding polygon to openlayers6
-* DONE: openlayers-polygon-rd -- adding polygon in RD projection
-* DONE: openlayers-polygon-rd-brt -- adding polygon to BRT map
+<table class="wikitable">
+<caption>Features</caption>
+<tbody>
+<tr>
+<th>Feature</th>
+<th>Description</th>
+</tr>
+<tr>
+<td>canvas-grid</td>
+<td>simple grid using JS without openlayers</td>
+</tr>
+<tr>
+<td>canvas-variablegrid</td>
+<td>cells of various sizes using JS without openlayers</td>
+</tr>
+<tr>
+<td>openlayers-polygon</td>
+<td>adding polygon to openlayers6</td>
+</tr>
+<tr>
+<td>openlayers-polygon-rd</td>
+<td>adding polygon in RD projection</td>
+</tr>
+<tr>
+<td>openlayers-polygon-rd-brt</td>
+<td>adding polygon to BRT map</td>
+</tr>
+<tr>
+<td>openlayers-polygon-colors-rd-brt</td>
+<td>Adding polygons to BRT map with dynamic styles</td>
+</tr>
+</tbody>
+</table>
 
 ## Openlayers install
 
@@ -25,8 +53,8 @@ Show grid of cells that are clickable.
 <code>
 var wfs = new OpenLayers.Layer.Vector("WFS", {
             strategies: [new OpenLayers.Strategy.BBOX({resFactor: 1})],
-            projection: new OpenLayers.Projection("ESPG:28992"),
-            protocol: new OpenLayers.Protocol.WFS({
+            projection: new Projection("ESPG:28992"),
+            protocol: new WFS({
                 url: geoserverURL,
                 srsName: "EPSG:28992",                    
                 maxFeatures: 20,

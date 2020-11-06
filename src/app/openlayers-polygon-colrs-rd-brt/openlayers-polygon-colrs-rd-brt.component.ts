@@ -16,11 +16,11 @@ import {Tile} from "ol/layer";
 import XYZ from "ol/source/XYZ";
 
 @Component({
-  selector: 'app-openlayers-polygon-rd-brt',
-  templateUrl: './openlayers-polygon-rd-brt.component.html',
-  styleUrls: ['./openlayers-polygon-rd-brt.component.css']
+  selector: 'app-openlayers-polygon-colrs-rd-brt',
+  templateUrl: './openlayers-polygon-colrs-rd-brt.component.html',
+  styleUrls: ['./openlayers-polygon-colrs-rd-brt.component.css']
 })
-export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
+export class OpenlayersPolygonColrsRdBrtComponent implements AfterViewInit {
   vectorLayer: Vector;
   map: Map;
   myprojection: Projection;
@@ -33,7 +33,7 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
       [5.1234, 51.92345]
     ]
   ];
-  coordinatesPolygonInRd = [
+  coordinatesPolygonInRd1 = [
     [
       [173563, 441818],
       [173063, 441818],
@@ -42,40 +42,44 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
       [173563, 441818]
     ]
   ];
+  coordinatesPolygonInRd2 = [
+    [
+      [174563, 444818],
+      [174063, 444818],
+      [174063, 446318],
+      [174563, 446318],
+      [174563, 444818]
+    ]
+  ];
 
   ngAfterViewInit() {
-    let polygonStyle = new Style({
+    let polygonStyleSuccess = new Style({
       fill: new Fill({
-        color: "rgba(255, 255, 0, 0.2)"
+        color: "rgba(255, 0, 0, 0.2)"
       }),
       stroke: new Stroke({
-        color: "#ffcc33",
-        width: 10
+        color: "#ff2211",
+        width: 4
+      })
+    });
+    let polygonStyleFailed = new Style({
+      fill: new Fill({
+        color: "rgba(0, 0, 255, 0.2)"
+      }),
+      stroke: new Stroke({
+        color: "#22ccff",
+        width: 4
       })
     });
     let vectorSource = new VectorSource({features: []});
     this.vectorLayer = new Vector({
       source: vectorSource,
-      style: [polygonStyle]
+      style: function(feature, resolution) {
+        const status = feature.get('status').toUpperCase();
+        return status === 'S' ? polygonStyleSuccess : polygonStyleFailed;
+      }
     });
 
-    // let topNLWMS = new TileLayer({
-    //   visible: true,
-    //   opacity: 0.7,
-    //   source: new TileWMS({
-    //     url: 'https://geodata.nationaalgeoregister.nl/top10nlv2/wms',
-    //     params: {
-    //       LAYERS: 'top10nlv2',
-    //       CRS: "EPSG:28992",
-    //       tiled: true
-    //     }
-    //   })
-    // });
-    // let dutchProjection = new Projection({
-    //   code: "EPSG:28992",
-    //   units: "m",
-    //   extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
-    // });
     proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
     register(proj4)
     let dutchProjection = GetProjection('EPSG:28992');
@@ -97,22 +101,32 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
       target: "map"
     });
 
-    this.addPolygon();
-    this.addPolygonInRd();
+    this.addPolygonFeatures();
+    //this.addPolygonInRd();
   }
 
-  addPolygon() {
-    // BOTH work !!!
-    const geometry = new Polygon(this.coordinatesPolygonInRd);
-    this.vectorLayer.getSource().addFeature(new Feature(geometry));
+  addPolygonFeatures() {
+    const geometrySuccess = new Polygon(this.coordinatesPolygonInRd1);
+    const myFeatureSuccess = new Feature({
+      geometry: geometrySuccess,
+      status: 'S'
+    });
+    this.vectorLayer.getSource().addFeature(myFeatureSuccess);
+
+    const geometryFailed = new Polygon(this.coordinatesPolygonInRd2);
+    const myFeatureFailed = new Feature({
+      geometry: geometryFailed,
+      status: 'F'
+    });
+    this.vectorLayer.getSource().addFeature(myFeatureFailed);
 
     // WORKS: With conversion
     // const geometry = new Polygon(this.coordinatesPolygonInRd).transform("EPSG:28992", this.map.getView().getProjection());
     // this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 
-  addPolygonInRd() {
-    const geometry = new Polygon(this.coordinatesPolygon).transform("EPSG:4326", this.map.getView().getProjection());
-    this.vectorLayer.getSource().addFeature(new Feature(geometry));
-  }
+  // addPolygonInRd() {
+  //   const geometry = new Polygon(this.coordinatesPolygon).transform("EPSG:4326", this.map.getView().getProjection());
+  //   this.vectorLayer.getSource().addFeature(new Feature(geometry));
+  // }
 }

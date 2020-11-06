@@ -9,6 +9,7 @@ import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { OpenlayersPolygonComponent } from './openlayers-polygon/openlayers-polygon.component';
 import { OpenlayersPolygonRdComponent } from './openlayers-polygon-rd/openlayers-polygon-rd.component';
 import { OpenlayersPolygonRdBrtComponent } from './openlayers-polygon-rd-brt/openlayers-polygon-rd-brt.component';
+import { OpenlayersPolygonColrsRdBrtComponent } from './openlayers-polygon-colrs-rd-brt/openlayers-polygon-colrs-rd-brt.component';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { OpenlayersPolygonRdBrtComponent } from './openlayers-polygon-rd-brt/ope
     CanvasVariableGridComponent,
     OpenlayersPolygonComponent,
     OpenlayersPolygonRdComponent,
-    OpenlayersPolygonRdBrtComponent
+    OpenlayersPolygonRdBrtComponent,
+    OpenlayersPolygonColrsRdBrtComponent
   ],
   imports: [
     BrowserModule,

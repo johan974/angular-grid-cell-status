@@ -5,6 +5,7 @@ import {CanvasVariableGridComponent} from './canvas-variable-grid/canvas-variabl
 import {OpenlayersPolygonComponent} from "./openlayers-polygon/openlayers-polygon.component";
 import {OpenlayersPolygonRdComponent} from "./openlayers-polygon-rd/openlayers-polygon-rd.component";
 import {OpenlayersPolygonRdBrtComponent} from "./openlayers-polygon-rd-brt/openlayers-polygon-rd-brt.component";
+import {OpenlayersPolygonColrsRdBrtComponent} from "./openlayers-polygon-colrs-rd-brt/openlayers-polygon-colrs-rd-brt.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/canvas', pathMatch: 'full'},
@@ -13,6 +14,7 @@ const routes: Routes = [
   {path: 'olpolygon', component: OpenlayersPolygonComponent},
   {path: 'olpolygonrd', component: OpenlayersPolygonRdComponent},
   {path: 'olpolygonrdbrt', component: OpenlayersPolygonRdBrtComponent},
+  {path: 'olpolygoncolorsrdbrt', component: OpenlayersPolygonColrsRdBrtComponent},
 ];
 
 @NgModule({
