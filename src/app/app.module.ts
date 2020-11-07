@@ -13,6 +13,8 @@ import { OpenlayersPolygonColrsRdBrtComponent } from './openlayers-polygon-colrs
 import { OpenlayersShowGmlComponent } from './openlayers-show-gml/openlayers-show-gml.component';
 import {HttpClientModule} from '@angular/common/http';
 import { OpenlayersShowGeojsonComponent } from './openlayers-show-geojson/openlayers-show-geojson.component';
+import { OpenlayersShowGeojsonRdBrtComponent } from './openlayers-show-geojson-rd-brt/openlayers-show-geojson-rd-brt.component';
+import { OpenlayersShowGeojsonRdComponent } from './openlayers-show-geojson-rd/openlayers-show-geojson-rd.component';
 
 @NgModule({
   declarations: [
@@ -24,7 +26,9 @@ import { OpenlayersShowGeojsonComponent } from './openlayers-show-geojson/openla
     OpenlayersPolygonRdBrtComponent,
     OpenlayersPolygonColrsRdBrtComponent,
     OpenlayersShowGmlComponent,
-    OpenlayersShowGeojsonComponent
+    OpenlayersShowGeojsonComponent,
+    OpenlayersShowGeojsonRdBrtComponent,
+    OpenlayersShowGeojsonRdComponent
   ],
   imports: [
     BrowserModule,

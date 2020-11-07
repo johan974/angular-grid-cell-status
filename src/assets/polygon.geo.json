@@ -1,0 +1,18 @@
+{"type":"FeatureCollection",
+  "features":[
+    {"type":"Feature",
+      "properties":  { "status":"S", "name": "feature-is-good" },
+      "geometry": {
+        "type":"Polygon",
+        "coordinates":[[[175563, 445818], [175063, 445818], [175063, 447318], [175563, 447318], [175563, 445818]]]
+      }
+    },
+    {"type":"Feature",
+      "properties":  { "status":"F", "name": "feature-is-wrong" },
+      "geometry": {
+        "type":"Polygon",
+        "coordinates": [[[174563, 444818], [174063, 444818], [174063, 446318], [174563, 446318], [174563, 444818]]]
+      }
+    }
+  ]
+}

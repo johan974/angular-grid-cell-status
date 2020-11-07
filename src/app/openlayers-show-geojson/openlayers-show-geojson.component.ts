@@ -1,19 +1,15 @@
 import {AfterViewInit, Component} from '@angular/core';
-import {defaults as defaultControls} from 'ol/control';
 
 import Map from "ol/Map";
 import View from "ol/View";
 import TileLayer from "ol/layer/Tile";
 import XYZ from "ol/source/XYZ";
-import ZoomToExtent from "ol/control/ZoomToExtent";
 import VectorSource from "ol/source/Vector";
 import Vector from "ol/layer/Vector";
-import { Fill, Stroke, Style } from "ol/style";
-import Polygon from "ol/geom/Polygon";
-import Feature from "ol/Feature";
-import GeoJSON from 'ol/format/GeoJSON';
 import VectorLayer from "ol/layer/Vector";
-import {fromLonLat, transform} from "ol/proj";
+import {Fill, Stroke, Style} from "ol/style";
+import GeoJSON from 'ol/format/GeoJSON';
+import {transform} from "ol/proj";
 
 // Explanation: EPSG:4326 (WGS84)
 //   The World Geodetic System of 1984 is the geographic coordinate system (the three-dimensional one) used by GPS
@@ -85,7 +81,7 @@ export class OpenlayersShowGeojsonComponent implements AfterViewInit {
         zoom: 7
       })
     });
-    console.log( this.map.getView().getProjection());
+    console.log(this.map.getView().getProjection());
     //  Shows: EPSG:3857 ==> WGS 84 / Pseudo-Mercator
   }
 

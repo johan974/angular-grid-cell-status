@@ -40,8 +40,20 @@ Show grid of cells that are clickable.
 <td>Show GeoJson (borders NL)</td>
 </tr>
 <tr>
+<td>openlayers-show-geojson-rd</td>
+<td>Show GeoJson in RD coordinates</td>
+</tr>
+<tr>
+<td>openlayers-show-geojson-rd-brt</td>
+<td>Show GeoJson in RD coordinates on BRT map</td>
+</tr>
+<tr>
+<td>openlayers-show-geojson-rd-brt</td>
+<td>Show GeoJson in RD coordinates on BRT map PLUS click show name and status</td>
+</tr>
+<tr>
 <td>openlayers-show-gml</td>
-<td>DOING: Show GML file</td>
+<td><strong>DOING</strong>: Show GML file</td>
 </tr>
 </tbody>
 </table>
