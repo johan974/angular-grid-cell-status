@@ -10,17 +10,14 @@ import Feature from "ol/Feature";
 import XYZ from "ol/source/XYZ";
 
 import {HttpClient} from '@angular/common/http';
-
-import GML3 from 'ol/format/GML3';
 import Geometry from "ol/geom/Geometry";
-import {Tile} from "ol/layer";
 import proj4 from "proj4";
 import {register} from "ol/proj/proj4";
-import {get as GetProjection} from "ol/proj";
+import {get as GetProjection, transform} from "ol/proj";
 import WFS from "ol/format/WFS";
-import {createStringXY} from "ol/coordinate";
-import ScaleLine from "ol/control/ScaleLine";
-import MousePosition from "ol/control/MousePosition";
+import TileLayer from "ol/layer/Tile";
+import {format} from "ol/coordinate";
+import GML3 from "ol/format/GML3";
 
 @Component({
   selector: 'app-openlayers-show-gml',
@@ -38,27 +35,27 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
-    this.setProjectionRd();
-    this.httpClient.get('assets/file-rd.gml', {responseType: 'text'})
-      .subscribe(
-        data => {
-          console.log(data);
-          this.fileText = data;
-          this.gmlFeatures = new GML3().readFeatures(this.fileText, {
-            featureProjection: 'EPSG:28992', dataProjection: 'EPSG:28992'
-          });
-          this.addGmlFeatures();
-        },
-        error => {
-          console.log(error);
-        }
-      );
+    // this.setProjectionRd();
+    // this.httpClient.get('assets/bgt_2_lv.gml', {responseType: 'text'})
+    //   .subscribe(
+    //     data => {
+    //       console.log(data);
+    //       this.fileText = data;
+    //       this.gmlFeatures = new GML3().readFeatures(this.fileText, {
+    //         featureProjection: 'EPSG:28992', dataProjection: 'EPSG:28992'
+    //       });
+    //       this.addGmlFeatures();
+    //     },
+    //     error => {
+    //       console.log(error);
+    //     }
+    //   );
   }
 
   ngAfterViewInit() {
     let polygonStyle = new Style({
       fill: new Fill({
-        color: "rgba(255, 255, 0, 0.2)"
+        color: "rgba(255, 0, 0, 0.8)"
       }),
       stroke: new Stroke({
         color: "#ffcc33",
@@ -66,42 +63,53 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
       })
     });
     // format: new WFS({gmlFormat: format.GML3 }),
+    // let vectorSource = new VectorSource({
+    //   format: new WFS(),
+    //   features: []
+    // });
     let vectorSource = new VectorSource({
-      format: new WFS(),
-      features: []
+      format: new WFS({gmlFormat: new GML3() }),
+      url: 'http://osgis.terragis.net/openlayers/examples/gml/polygon.xml',
     });
     this.vectorLayer = new Vector({
       source: vectorSource,
       style: [polygonStyle]
     });
-    let scaleInfo = new ScaleLine({
-      units: 'degrees',
-      minWidth: 100
-    });
-    const mousePosition = new MousePosition({
-      coordinateFormat: createStringXY(2),
-      projection: 'EPSG:28992',
-      undefinedHTML: '&nbsp;No coordinate active'
-    });
+
+    // let scaleInfo = new ScaleLine({
+    //   units: 'degrees',
+    //   minWidth: 100
+    // });
+    // const mousePosition = new MousePosition({
+    //   coordinateFormat: createStringXY(2),
+    //   projection: 'EPSG:28992',
+    //   undefinedHTML: '&nbsp;No coordinate active'
+    // });
 
     this.map = new Map({
       layers: [
-        new Tile({
+        // new Tile({
+        //   source: new XYZ({
+        //     url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
+        //   })
+        // })
+        new TileLayer({
           source: new XYZ({
-            url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
+            url: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
           })
         }),
         this.vectorLayer
       ],
       view: new View({
-        projection: this.dutchProjection,
-        center: [173063, 441818],
+        //projection: this.dutchProjection,
+        center: transform([0.532597, 47.428810], 'EPSG:4326', 'EPSG:3857'),
         zoom: 12
       }),
       target: "map"
     });
-    this.map.addControl(scaleInfo);
-    this.map.addControl(mousePosition);
+    // this.map.addControl(scaleInfo);
+    // this.map.addControl(mousePosition);
+    // this.map.addLayer( new GML( { url, "assets/bgt_2_lv.gml"}))
     this.addGmlFeatures();
   }
 
