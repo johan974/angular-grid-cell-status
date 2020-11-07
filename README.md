@@ -35,6 +35,14 @@ Show grid of cells that are clickable.
 <td>openlayers-polygon-colors-rd-brt</td>
 <td>Adding polygons to BRT map with dynamic styles</td>
 </tr>
+<tr>
+<td>openlayers-show-geojson</td>
+<td>Show GeoJson (borders NL)</td>
+</tr>
+<tr>
+<td>openlayers-show-gml</td>
+<td>DOING: Show GML file</td>
+</tr>
 </tbody>
 </table>
 
