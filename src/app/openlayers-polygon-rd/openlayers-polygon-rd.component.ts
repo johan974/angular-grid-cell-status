@@ -1,6 +1,4 @@
-import { Component } from '@angular/core';
-
-import {AfterViewInit} from '@angular/core';
+import {AfterViewInit, Component} from '@angular/core';
 import {defaults as defaultControls} from 'ol/control';
 
 import Map from "ol/Map";
@@ -10,15 +8,13 @@ import XYZ from "ol/source/XYZ";
 import ZoomToExtent from "ol/control/ZoomToExtent";
 import VectorSource from "ol/source/Vector";
 import Vector from "ol/layer/Vector";
-import { Fill, Stroke, Style } from "ol/style";
+import {Fill, Stroke, Style} from "ol/style";
 import Polygon from "ol/geom/Polygon";
 import Feature from "ol/Feature";
-import Projection from 'ol/proj/Projection';
-import {addProjection} from 'ol/proj';
+import {get as GetProjection} from 'ol/proj';
 import proj4 from "proj4";
 import {register} from "ol/proj/proj4";
-import {get as GetProjection} from 'ol/proj'
-
+import ScaleLine from "ol/control/ScaleLine";
 
 @Component({
   selector: 'app-openlayers-polygon-rd',
@@ -62,6 +58,11 @@ export class OpenlayersPolygonRdComponent implements AfterViewInit {
       source: vectorSource,
       style: [polygonStyle]
     });
+    let mousePosition = new ScaleLine({
+      units: 'degrees',
+      minWidth: 100
+    });
+
     this.map = new Map({
       target: "map",
       layers: [
@@ -85,20 +86,21 @@ export class OpenlayersPolygonRdComponent implements AfterViewInit {
         })
       ])
     });
+    this.map.addControl(mousePosition);
     this.addPolygon();
     this.addPolygonInRd();
   }
 
   addPolygon() {
-    const geometry = new Polygon( this.coordinatesPolygon).transform( "EPSG:4326", this.map.getView().getProjection());
+    const geometry = new Polygon(this.coordinatesPolygon).transform("EPSG:4326", this.map.getView().getProjection());
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 
   addPolygonInRd() {
-    proj4.defs("EPSG:28992","+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
+    proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
     register(proj4)
     let dutchProjection = GetProjection('EPSG:28992');
-    const geometry = new Polygon( this.coordinatesPolygonInRd).transform( 'EPSG:28992', this.map.getView().getProjection());
+    const geometry = new Polygon(this.coordinatesPolygonInRd).transform('EPSG:28992', this.map.getView().getProjection());
     this.vectorLayer.getSource().addFeature(new Feature(geometry));
   }
 }

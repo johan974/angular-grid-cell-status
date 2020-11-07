@@ -1,4 +1,4 @@
-import {AfterViewInit, Component} from '@angular/core';
+import {AfterViewInit, Component, OnInit} from '@angular/core';
 
 import Map from "ol/Map";
 import View from "ol/View";
@@ -20,10 +20,10 @@ import XYZ from "ol/source/XYZ";
   templateUrl: './openlayers-polygon-rd-brt.component.html',
   styleUrls: ['./openlayers-polygon-rd-brt.component.css']
 })
-export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
+export class OpenlayersPolygonRdBrtComponent implements OnInit, AfterViewInit {
   vectorLayer: Vector;
   map: Map;
-  myprojection: Projection;
+  dutchProjection: Projection;
   coordinatesPolygon = [
     [
       [5.1234, 51.92345],
@@ -43,6 +43,10 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
     ]
   ];
 
+  ngOnInit(): void {
+    this.setProjectionRd();
+  }
+
   ngAfterViewInit() {
     let polygonStyle = new Style({
       fill: new Fill({
@@ -59,27 +63,6 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
       style: [polygonStyle]
     });
 
-    // let topNLWMS = new TileLayer({
-    //   visible: true,
-    //   opacity: 0.7,
-    //   source: new TileWMS({
-    //     url: 'https://geodata.nationaalgeoregister.nl/top10nlv2/wms',
-    //     params: {
-    //       LAYERS: 'top10nlv2',
-    //       CRS: "EPSG:28992",
-    //       tiled: true
-    //     }
-    //   })
-    // });
-    // let dutchProjection = new Projection({
-    //   code: "EPSG:28992",
-    //   units: "m",
-    //   extent: [-285401.92, 22598.08, 595401.9199999999, 903401.9199999999]
-    // });
-    proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
-    register(proj4)
-    let dutchProjection = GetProjection('EPSG:28992');
-
     this.map = new Map({
       layers: [
         new Tile({
@@ -89,7 +72,7 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
         }), this.vectorLayer
       ],
       view: new View({
-        projection: dutchProjection,
+        projection: this.dutchProjection,
         //center: fromLonLat([5.266524, 52.073253]),
         center: [173563, 441818],
         zoom: 10
@@ -101,10 +84,17 @@ export class OpenlayersPolygonRdBrtComponent implements AfterViewInit {
     this.addPolygonInRd();
   }
 
+  setProjectionRd() {
+    proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
+    register(proj4)
+    this.dutchProjection = GetProjection('EPSG:28992');
+  }
+
   addPolygon() {
     // BOTH work !!!
     const geometry = new Polygon(this.coordinatesPolygonInRd);
-    this.vectorLayer.getSource().addFeature(new Feature(geometry));
+    const myfeature = new Feature(geometry)
+    this.vectorLayer.getSource().addFeature(myfeature);
 
     // WORKS: With conversion
     // const geometry = new Polygon(this.coordinatesPolygonInRd).transform("EPSG:28992", this.map.getView().getProjection());

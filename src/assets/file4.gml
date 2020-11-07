@@ -47,4 +47,36 @@
           </gml:Surface>
         </fme:RN_AGUASMG_Subcuencas_semidetalle>
      </gml:featureMember>
+     <gml:featureMember>
+             <fme:RN_AGUASMG_Subcuencas_semidetalle gml:id="ida8d07252-7cb8-4997-8a0c-229e46633333">
+                <fme:FID>0</fme:FID>
+                <fme:DISTRITO>05</fme:DISTRITO>
+                <fme:DEMARC_INT>05</fme:DEMARC_INT>
+                <fme:SUBCUENCA>0526</fme:SUBCUENCA>
+                <fme:SUBCUEN_2>0</fme:SUBCUEN_2>
+                <fme:SUBCUEN_3>0</fme:SUBCUEN_3>
+                <fme:SUBCUEN_4>0</fme:SUBCUEN_4>
+                <fme:CUENCA_AP>052600000001</fme:CUENCA_AP>
+                <fme:SCUENCA_AP>0</fme:SCUENCA_AP>
+                <fme:SCUENCA__1>0</fme:SCUENCA__1>
+                <fme:SCUENCA__2>0</fme:SCUENCA__2>
+                <fme:SNOMBRE>GUADALQUIVIR DESDE EL TRANCO AL GUADIANA MENOR</fme:SNOMBRE>
+                <fme:SHAPE_LENG>9728.46341771</fme:SHAPE_LENG>
+                <fme:SHAPE_AREA>0</fme:SHAPE_AREA>
+                <fme:SHAPE_LEN>0</fme:SHAPE_LEN>
+                <gml:surfaceProperty>
+                     <gml:Surface gml:id="id.8f853d13d0fd4ed7a389ea867293a733" srsName="urn:ogc:def:crs:EPSG::28992">
+                        <gml:patches>
+                           <gml:PolygonPatch>
+                              <gml:exterior>
+                                 <gml:LinearRing>
+                                    <gml:posList>125563 515818 125063 515818 125063 519318 125563 519318 125563 515818</gml:posList>
+                                 </gml:LinearRing>
+                              </gml:exterior>
+                           </gml:PolygonPatch>
+                        </gml:patches>
+                     </gml:Surface>
+                  </gml:surfaceProperty>
+             </fme:RN_AGUASMG_Subcuencas_semidetalle>
+          </gml:featureMember>
   </gml:FeatureCollection>

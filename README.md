@@ -38,6 +38,13 @@ Show grid of cells that are clickable.
 </tbody>
 </table>
 
+## Todo
+
+* Loading GML file
+* Loading GML file in RD coords
+* Drawing polygon and store
+* Updating polygon and store
+
 ## Openlayers install
 
 *  $ npm install ol --save
