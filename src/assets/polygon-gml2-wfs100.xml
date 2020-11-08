@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<wfs:FeatureCollection xmlns:ms="http://mapserver.gis.umn.edu/mapserver" xmlns:wfs="http://www.opengis.net/wfs" xmlns:gml="http://www.opengis.net/gml" xmlns:ogc="http://www.opengis.net/ogc" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.opengis.net/wfs http://schemas.opengis.net/wfs/1.0.0/WFS-basic.xsd                         http://mapserver.gis.umn.edu/mapserver http://aneto.oco/cgi-bin/worldwfs?SERVICE=WFS&amp;VERSION=1.0.0&amp;REQUEST=DescribeFeatureType&amp;TYPENAME=polygon&amp;OUTPUTFORMAT=XMLSCHEMA">
+      <gml:boundedBy>
+      	<gml:Box srsName="EPSG:4326">
+      		<gml:coordinates>47.003018,-0.768746 47.925567,3.002191</gml:coordinates>
+      	</gml:Box>
+      </gml:boundedBy>
+    <gml:featureMember>
+      <ms:polygon fid="1">
+        <gml:boundedBy>
+        	<gml:Box srsName="EPSG:4326">
+        		<gml:coordinates>47.003018,-0.768746 47.925567,0.532597</gml:coordinates>
+        	</gml:Box>
+        </gml:boundedBy>
+        <ms:msGeometry>
+        <gml:MultiPolygon srsName="EPSG:4326">
+        <gml:polygonMember>
+          <gml:Polygon>
+            <gml:outerBoundaryIs>
+              <gml:LinearRing>
+                <gml:coordinates>47.003018,-0.318987 47.358268,-0.768746 47.684285,-0.574463 47.854602,-0.347374 47.925567,-0.006740 47.726864,0.135191 47.599127,0.149384 47.670092,0.419052 47.428810,0.532597 47.443003,0.305508 47.144948,0.475824 47.201721,0.064225 47.003018,-0.318987</gml:coordinates>
+              </gml:LinearRing>
+            </gml:outerBoundaryIs>
+            <gml:innerBoundaryIs>
+              <gml:LinearRing>
+                <gml:coordinates>47.485582,-0.035126 47.485582,-0.035126 47.641706,-0.049319 47.655899,-0.233829 47.457196,-0.375760 47.286879,-0.276408 47.485582,-0.035126 </gml:coordinates>
+              </gml:LinearRing>
+            </gml:innerBoundaryIs>
+          </gml:Polygon>
+        </gml:polygonMember>
+        </gml:MultiPolygon>
+        </ms:msGeometry>
+        <ms:ogc_fid>1</ms:ogc_fid>
+        <ms:name>My Polygon with hole</ms:name>
+        <ms:id>0</ms:id>
+      </ms:polygon>
+    </gml:featureMember>
+</wfs:FeatureCollection>

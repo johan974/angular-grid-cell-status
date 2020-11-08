@@ -15,6 +15,7 @@ import {HttpClientModule} from '@angular/common/http';
 import { OpenlayersShowGeojsonComponent } from './openlayers-show-geojson/openlayers-show-geojson.component';
 import { OpenlayersShowGeojsonRdBrtComponent } from './openlayers-show-geojson-rd-brt/openlayers-show-geojson-rd-brt.component';
 import { OpenlayersShowGeojsonRdComponent } from './openlayers-show-geojson-rd/openlayers-show-geojson-rd.component';
+import { OpenlayersShowGml2Wfs100Component } from './openlayers-show-gml2-wfs100/openlayers-show-gml2-wfs100.component';
 
 @NgModule({
   declarations: [
@@ -28,7 +29,8 @@ import { OpenlayersShowGeojsonRdComponent } from './openlayers-show-geojson-rd/o
     OpenlayersShowGmlComponent,
     OpenlayersShowGeojsonComponent,
     OpenlayersShowGeojsonRdBrtComponent,
-    OpenlayersShowGeojsonRdComponent
+    OpenlayersShowGeojsonRdComponent,
+    OpenlayersShowGml2Wfs100Component
   ],
   imports: [
     BrowserModule,
