@@ -49,7 +49,7 @@ export class OpenlayersShowGml2Wfs100Component implements OnInit, AfterViewInit 
             gmlFormat: new GML2()
           });
           this.gmlFeatures = wfsFormat.readFeatures(this.fileText, {
-            featureProjection: 'EPSG:4326',
+            featureProjection: 'EPSG:3857',
             dataProjection: 'EPSG:4326'
           });
           this.addGmlFeatures();
@@ -120,6 +120,7 @@ export class OpenlayersShowGml2Wfs100Component implements OnInit, AfterViewInit 
       // });
       this.vectorLayer.getSource().addFeatures(this.gmlFeatures);
       // this.map.getView().fit( this.vectorSource.getExtent());
+      console.log( this.map.getView().getProjection());
     }
   }
 }

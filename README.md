@@ -52,8 +52,12 @@ Show grid of cells that are clickable.
 <td>Show GeoJson in RD coordinates on BRT map PLUS click show name and status</td>
 </tr>
 <tr>
+<td>openlayers-show-gml2-wfs100</td>
+<td><strong>DOING</strong>: Show GML v2 (WFS1.0.0) file</td>
+</tr>
+<tr>
 <td>openlayers-show-gml</td>
-<td><strong>DOING</strong>: Show GML file</td>
+<td><strong>DOING</strong>: Show GML v3 (WFS1.1.0) file</td>
 </tr>
 </tbody>
 </table>
