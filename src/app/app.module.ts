@@ -16,6 +16,8 @@ import { OpenlayersShowGeojsonComponent } from './openlayers-show-geojson/openla
 import { OpenlayersShowGeojsonRdBrtComponent } from './openlayers-show-geojson-rd-brt/openlayers-show-geojson-rd-brt.component';
 import { OpenlayersShowGeojsonRdComponent } from './openlayers-show-geojson-rd/openlayers-show-geojson-rd.component';
 import { OpenlayersShowGml2Wfs100Component } from './openlayers-show-gml2-wfs100/openlayers-show-gml2-wfs100.component';
+import { ShowGmlRdBrtComponent } from './show-gml-rd-brt/show-gml-rd-brt.component';
+import { ShowGmlRdComponent } from './show-gml-rd/show-gml-rd.component';
 
 @NgModule({
   declarations: [
@@ -30,7 +32,9 @@ import { OpenlayersShowGml2Wfs100Component } from './openlayers-show-gml2-wfs100
     OpenlayersShowGeojsonComponent,
     OpenlayersShowGeojsonRdBrtComponent,
     OpenlayersShowGeojsonRdComponent,
-    OpenlayersShowGml2Wfs100Component
+    OpenlayersShowGml2Wfs100Component,
+    ShowGmlRdBrtComponent,
+    ShowGmlRdComponent
   ],
   imports: [
     BrowserModule,

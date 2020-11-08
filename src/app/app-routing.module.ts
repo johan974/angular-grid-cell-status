@@ -11,6 +11,8 @@ import {OpenlayersShowGeojsonComponent} from "./openlayers-show-geojson/openlaye
 import {OpenlayersShowGeojsonRdBrtComponent} from "./openlayers-show-geojson-rd-brt/openlayers-show-geojson-rd-brt.component";
 import {OpenlayersShowGeojsonRdComponent} from "./openlayers-show-geojson-rd/openlayers-show-geojson-rd.component";
 import {OpenlayersShowGml2Wfs100Component} from "./openlayers-show-gml2-wfs100/openlayers-show-gml2-wfs100.component";
+import {ShowGmlRdBrtComponent} from "./show-gml-rd-brt/show-gml-rd-brt.component";
+import {ShowGmlRdComponent} from "./show-gml-rd/show-gml-rd.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/canvas', pathMatch: 'full'},
@@ -22,6 +24,8 @@ const routes: Routes = [
   {path: 'olpolygoncolorsrdbrt', component: OpenlayersPolygonColrsRdBrtComponent},
   {path: 'olshowgml2wfs100', component: OpenlayersShowGml2Wfs100Component},
   {path: 'olshowgml', component: OpenlayersShowGmlComponent},
+  {path: 'olshowgmlrd', component: ShowGmlRdComponent},
+  {path: 'olshowgmlrdbrt', component: ShowGmlRdBrtComponent},
   {path: 'olshowgeojson', component: OpenlayersShowGeojsonComponent},
   {path: 'olshowgeojsonrd', component: OpenlayersShowGeojsonRdComponent},
   {path: 'olshowgeojsonrdbrt', component: OpenlayersShowGeojsonRdBrtComponent},

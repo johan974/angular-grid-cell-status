@@ -20,26 +20,27 @@ import {createStringXY, format} from "ol/coordinate";
 import GML3 from "ol/format/GML3";
 import ScaleLine from "ol/control/ScaleLine";
 import MousePosition from "ol/control/MousePosition";
+import {Tile} from "ol/layer";
 
 @Component({
-  selector: 'app-openlayers-show-gml',
-  templateUrl: './openlayers-show-gml.component.html',
-  styleUrls: ['./openlayers-show-gml.component.css']
+  selector: 'app-show-gml-rd-brt',
+  templateUrl: './show-gml-rd-brt.component.html',
+  styleUrls: ['./show-gml-rd-brt.component.css']
 })
-export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
+export class ShowGmlRdBrtComponent implements OnInit, AfterViewInit {
   fileText: string;
   gmlFeatures: Feature<Geometry>[] = [];
   vectorLayer: Vector;
   vectorSource: VectorSource;
   map: Map;
-  newProjection: Projection;
+  dutchProjection: Projection;
 
   constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
     this.defineProjection();
-    this.httpClient.get('assets/wfs113-epsg-2154.xml', {responseType: 'text'})
+    this.httpClient.get('assets/wfs113-epsg-28992.xml', {responseType: 'text'})
       .subscribe(
         data => {
           console.log(data);
@@ -48,8 +49,8 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
             gmlFormat: new GML3()
           });
           this.gmlFeatures = wfsFormat.readFeatures(this.fileText, {
-            featureProjection: 'EPSG:2154',
-            dataProjection: 'EPSG:2154'
+            featureProjection: 'EPSG:28992',
+            dataProjection: 'EPSG:28992'
           });
           this.addGmlFeatures();
         },
@@ -84,22 +85,22 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
     });
     const mousePosition = new MousePosition({
       coordinateFormat: createStringXY(2),
-      projection: 'EPSG:3857',
+      projection: 'EPSG:28992',
       undefinedHTML: '&nbsp;No coordinate active'
     });
 
     this.map = new Map({
       layers: [
-        new TileLayer({
+        new Tile({
           source: new XYZ({
-            url: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url: 'https://geodata.nationaalgeoregister.nl/tiles/service/wmts/brtachtergrondkaart/EPSG:3857/{z}/{x}/{y}.png',
           })
         }),
         this.vectorLayer
       ],
       view: new View({
-        //projection: this.dutchProjection,
-        center: transform([830867.49,7382438.52],'EPSG:2154', 'EPSG:3857'),
+        projection: this.dutchProjection,
+        center: [173063,441818],
         zoom: 9
       }),
       target: "map"
@@ -110,11 +111,10 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
   }
 
   defineProjection() {
-    proj4.defs("EPSG:2154","+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
-    register(proj4);
-    this.newProjection = GetProjection('EPSG:2154');
+    proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
+    register(proj4)
+    this.dutchProjection = GetProjection('EPSG:28992');
   }
-
 
   addGmlFeatures() {
     if (this.gmlFeatures.length > 0) {

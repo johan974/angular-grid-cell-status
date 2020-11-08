@@ -22,24 +22,24 @@ import ScaleLine from "ol/control/ScaleLine";
 import MousePosition from "ol/control/MousePosition";
 
 @Component({
-  selector: 'app-openlayers-show-gml',
-  templateUrl: './openlayers-show-gml.component.html',
-  styleUrls: ['./openlayers-show-gml.component.css']
+  selector: 'app-show-gml-rd',
+  templateUrl: './show-gml-rd.component.html',
+  styleUrls: ['./show-gml-rd.component.css']
 })
-export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
+export class ShowGmlRdComponent implements OnInit, AfterViewInit {
   fileText: string;
   gmlFeatures: Feature<Geometry>[] = [];
   vectorLayer: Vector;
   vectorSource: VectorSource;
   map: Map;
-  newProjection: Projection;
+  dutchProjection: Projection;
 
   constructor(private httpClient: HttpClient) {
   }
 
   ngOnInit(): void {
     this.defineProjection();
-    this.httpClient.get('assets/wfs113-epsg-2154.xml', {responseType: 'text'})
+    this.httpClient.get('assets/wfs113-epsg-28992.xml', {responseType: 'text'})
       .subscribe(
         data => {
           console.log(data);
@@ -48,8 +48,8 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
             gmlFormat: new GML3()
           });
           this.gmlFeatures = wfsFormat.readFeatures(this.fileText, {
-            featureProjection: 'EPSG:2154',
-            dataProjection: 'EPSG:2154'
+            featureProjection: 'EPSG:3857',
+            dataProjection: 'EPSG:28992'
           });
           this.addGmlFeatures();
         },
@@ -99,7 +99,7 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
       ],
       view: new View({
         //projection: this.dutchProjection,
-        center: transform([830867.49,7382438.52],'EPSG:2154', 'EPSG:3857'),
+        center: transform([173063,441818],'EPSG:28992', 'EPSG:3857'),
         zoom: 9
       }),
       target: "map"
@@ -110,11 +110,10 @@ export class OpenlayersShowGmlComponent implements OnInit, AfterViewInit {
   }
 
   defineProjection() {
-    proj4.defs("EPSG:2154","+proj=lcc +lat_1=49 +lat_2=44 +lat_0=46.5 +lon_0=3 +x_0=700000 +y_0=6600000 +ellps=GRS80 +towgs84=0,0,0,0,0,0,0 +units=m +no_defs");
-    register(proj4);
-    this.newProjection = GetProjection('EPSG:2154');
+    proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
+    register(proj4)
+    this.dutchProjection = GetProjection('EPSG:28992');
   }
-
 
   addGmlFeatures() {
     if (this.gmlFeatures.length > 0) {

@@ -53,11 +53,19 @@ Show grid of cells that are clickable.
 </tr>
 <tr>
 <td>openlayers-show-gml2-wfs100</td>
-<td><strong>DOING</strong>: Show GML v2 (WFS1.0.0) file</td>
+<td>Show GML v2 (WFS1.0.0) file</td>
 </tr>
 <tr>
 <td>openlayers-show-gml</td>
-<td><strong>DOING</strong>: Show GML v3 (WFS1.1.0) file</td>
+<td>Show GML v3 (WFS1.1.0) file</td>
+</tr>
+<tr>
+<td>openlayers-show-gml</td>
+<td>Show GML v3 (WFS1.1.0) RD file</td>
+</tr>
+<tr>
+<td>openlayers-show-gml</td>
+<td>Show GML v3 (WFS1.1.0) RD file on BRT</td>
 </tr>
 </tbody>
 </table>
