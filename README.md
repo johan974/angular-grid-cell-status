@@ -60,12 +60,16 @@ Show grid of cells that are clickable.
 <td>Show GML v3 (WFS1.1.0) file</td>
 </tr>
 <tr>
-<td>openlayers-show-gml</td>
+<td>openlayers-show-gml-rd</td>
 <td>Show GML v3 (WFS1.1.0) RD file</td>
 </tr>
 <tr>
-<td>openlayers-show-gml</td>
+<td>openlayers-show-gml-rd-brt</td>
 <td>Show GML v3 (WFS1.1.0) RD file on BRT</td>
+</tr>
+<tr>
+<td>openlayers-show-gml-test-rd</td>
+<td>Show GML v3 (WFS1.1.0) RD BGT test</td>
 </tr>
 </tbody>
 </table>

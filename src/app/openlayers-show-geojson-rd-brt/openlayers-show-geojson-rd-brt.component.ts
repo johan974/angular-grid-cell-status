@@ -40,32 +40,32 @@ export class OpenlayersShowGeojsonRdBrtComponent implements OnInit, AfterViewIni
 
   setProjectionRd() {
     proj4.defs("EPSG:28992", "+proj=sterea +lat_0=52.15616055555555 +lon_0=5.38763888888889 +k=0.9999079 +x_0=155000 +y_0=463000  +ellps=bessel  +towgs84=565.040,49.910,465.840,-0.40939,0.35971,-1.86849,4.0772 +units=m +no_defs");
-    register(proj4)
+    register(proj4);
     this.dutchProjection = GetProjection('EPSG:28992');
   }
 
   ngAfterViewInit() {
-    let polygonStyleSuccess = new Style({
+    const polygonStyleSuccess = new Style({
       fill: new Fill({
-        color: "rgba(255, 0, 0, 0.5)"
+        color: 'rgba(255, 0, 0, 0.5)'
       }),
       stroke: new Stroke({
-        color: "#ff2211",
+        color: '#ff2211',
         width: 7
       })
     });
-    let polygonStyleFailed = new Style({
+    const polygonStyleFailed = new Style({
       fill: new Fill({
-        color: "rgba(0, 0, 255, 0.5)"
+        color: 'rgba(0, 0, 255, 0.5)'
       }),
       stroke: new Stroke({
-        color: "#22ccff",
+        color: '#22ccff',
         width: 7
       })
     });
 
     this.map = new Map({
-        target: "map",
+        target: 'map',
         layers: [
           new Tile({
             source: new XYZ({
@@ -77,7 +77,7 @@ export class OpenlayersShowGeojsonRdBrtComponent implements OnInit, AfterViewIni
               format: new GeoJSON({dataProjection: 'EPSG:28992', featureProjection: 'EPSG:28992'}),
               url: 'assets/polygon.geo.json',
             }),
-            style: function (feature, resolution) {
+            style: (feature, resolution) => {
               const status = feature.get('status').toUpperCase();
               return status === 'S' ? polygonStyleSuccess : polygonStyleFailed;
             }
@@ -92,7 +92,7 @@ export class OpenlayersShowGeojsonRdBrtComponent implements OnInit, AfterViewIni
     );
 
     // Scale and current position
-    let scaleInfo = new ScaleLine({
+    const scaleInfo = new ScaleLine({
       units: 'degrees',
       minWidth: 100
     });
@@ -105,11 +105,11 @@ export class OpenlayersShowGeojsonRdBrtComponent implements OnInit, AfterViewIni
     this.map.addControl(mousePosition);
 
     // Show features:
-    let selectSingleClick = new Select();
+    const selectSingleClick = new Select();
     this.map.addInteraction(selectSingleClick);
     const that = this;
-    selectSingleClick.on('select', function(e) {
-      console.log(e.target.getFeatures())
+    selectSingleClick.on('select', e => {
+      // console.log(e.target.getFeatures());
       e.target.getFeatures().forEach((feature) => {
         console.log(feature);
         that.myFeatureName = feature.get('name');
