@@ -14,7 +14,7 @@ import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
 import {get as GetProjection} from 'ol/proj';
 import WFS from 'ol/format/WFS';
-import {Coordinate, createStringXY} from 'ol/coordinate';
+import {Coordinate, createStringXY, toStringXY} from 'ol/coordinate';
 import GML3 from 'ol/format/GML3';
 import ScaleLine from 'ol/control/ScaleLine';
 import MousePosition from 'ol/control/MousePosition';
@@ -22,6 +22,7 @@ import GeometryType from "ol/geom/GeometryType";
 import Polygon from "ol/geom/Polygon";
 import MultiPolygon from "ol/geom/MultiPolygon";
 import {NgForm} from "@angular/forms";
+import Point from "ol/geom/Point";
 
 @Component({
   selector: 'app-show-gml-test-rd-centriod',
@@ -128,28 +129,17 @@ export class ShowGmlTestRdCentriodComponent implements OnInit, AfterViewInit {
 
   determineInternalCentroid( form: NgForm) {
     this.middelpunt = '<nothing>';
-    this.internalCentriod = this.calculateInternalCentroid( form.value.internalCentriod);
+    this.internalCentriod = this.calculateInternalCentroid( form.value.candidateCentroid);
     if( this.internalCentriod !== null) {
-      this.middelpunt = this.internalCentriod.toString();
+      this.middelpunt = toStringXY( this.internalCentriod);
     }
   }
 
   calculateInternalCentroid( candidateCentriod: string): Coordinate {
     this.internalCentriod = null;
-    if( candidateCentriod === null) {
-      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
-      return null;
-    }
-    let coordinateParts = candidateCentriod.split(" ", 2);
-    if( coordinateParts.length !== 2) {
-      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
-      return null;
-    }
-    let rdCoordToCheck: number[] = []
-    rdCoordToCheck[0] = +coordinateParts[0];
-    rdCoordToCheck[1] = +coordinateParts[1];
+    const rdCoordToCheck = this.convertStringToCoordinate( candidateCentriod);
     let referenceGeometry = this.vectorLayer.getSource().getFeatures()[0].getGeometry();
-    if( referenceGeometry.intersectsCoordinate( rdCoordToCheck)) {
+    if( ! referenceGeometry.intersectsCoordinate( rdCoordToCheck)) {
       if (referenceGeometry.getType() === GeometryType.POLYGON) {
         let isAPolygon: Polygon = referenceGeometry as Polygon;
         this.internalCentriod = isAPolygon.getInteriorPoint().getCoordinates();
@@ -160,8 +150,26 @@ export class ShowGmlTestRdCentriodComponent implements OnInit, AfterViewInit {
           this.internalCentriod = multiPoint.getPoint( 0).getCoordinates();
         }
       }
+    } else {
+      return rdCoordToCheck;
     }
     return this.internalCentriod;
+  }
+
+  convertStringToCoordinate( coordinateString: string): Coordinate {
+    if( coordinateString === null) {
+      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
+      return null;
+    }
+    let coordinateStringParts = coordinateString.split(" ", 2);
+    if( coordinateStringParts.length !== 2) {
+      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
+      return null;
+    }
+    let coordinateParts: number[] = []
+    coordinateParts[0] = +coordinateStringParts[0];
+    coordinateParts[1] = +coordinateStringParts[1];
+    return coordinateParts;
   }
 
 }
