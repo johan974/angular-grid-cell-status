@@ -14,6 +14,7 @@ import {OpenlayersShowGml2Wfs100Component} from './openlayers-show-gml2-wfs100/o
 import {ShowGmlRdBrtComponent} from './show-gml-rd-brt/show-gml-rd-brt.component';
 import {ShowGmlRdComponent} from './show-gml-rd/show-gml-rd.component';
 import {ShowGmlTestRdComponent} from './show-gml-test-rd/show-gml-test-rd.component';
+import {ShowGmlTestRdCentriodComponent} from "./show-gml-test-rd-centriod/show-gml-test-rd-centriod.component";
 
 const routes: Routes = [
   {path: '', redirectTo: '/canvas', pathMatch: 'full'},
@@ -28,6 +29,7 @@ const routes: Routes = [
   {path: 'olshowgmlrd', component: ShowGmlRdComponent},
   {path: 'olshowgmlrdbrt', component: ShowGmlRdBrtComponent},
   {path: 'olshowgmlrdtest', component: ShowGmlTestRdComponent},
+  {path: 'olshowgmlrdcentroid', component: ShowGmlTestRdCentriodComponent},
   {path: 'olshowgeojson', component: OpenlayersShowGeojsonComponent},
   {path: 'olshowgeojsonrd', component: OpenlayersShowGeojsonRdComponent},
   {path: 'olshowgeojsonrdbrt', component: OpenlayersShowGeojsonRdBrtComponent},

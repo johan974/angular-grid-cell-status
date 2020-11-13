@@ -1,0 +1,36 @@
+<div class="row d-none d-md-block">
+  <div class="col-8 mt-3 h5">
+    <label><strong>Edit the myGeocache</strong></label>
+  </div>
+</div>
+<div id="map" class="map"></div>
+<form #f="ngForm">
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-3"><label class="font-weight-bold" for="candidateCentroid">Kandidaat middelpunt</label></div>
+      <div class="col-sm-9 col-10">
+        <input type="text" id="candidateCentroid" name="candidateCentroid" [(ngModel)]="candidateCentroid" required class="form-control"
+               #v_candidateCentroid="ngModel">
+        <span *ngIf="!v_candidateCentroid.valid && v_candidateCentroid.touched" class="text-danger">Middelpunt mag niet leeg zijn. Vul een geldige RD coordinaat in. </span>
+      </div>
+      <div class="clearfix visible-sm-block"></div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row">
+      <div class="col-sm-3"><label class="font-weight-bold" for="middelpunt">Intern middelpunt</label></div>
+      <div class="col-sm-9 col-10">
+        <input type="text" id="middelpunt" name="middelpunt" [(ngModel)]="middelpunt" disabled class="form-control">
+      </div>
+    </div>
+  </div>
+  <div class="form-group">
+    <div class="row mt-2">
+      <div *ngIf="errorMessage !== ''" class="text-danger col-12 mb-1">{{ errorMessage }}<br></div>
+      <br>
+      <button [disabled]="!f.valid" class="btn btn-info col-3 col-md-2 col-xl-1 ml-1" type="button"
+              (click)="calculateInternalCentroid( f)">Bereken (interne) middelpunt</button>
+    </div>
+  </div>
+</form>
+

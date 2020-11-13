@@ -14,17 +14,21 @@ import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
 import {get as GetProjection} from 'ol/proj';
 import WFS from 'ol/format/WFS';
-import {createStringXY} from 'ol/coordinate';
+import {Coordinate, createStringXY} from 'ol/coordinate';
 import GML3 from 'ol/format/GML3';
 import ScaleLine from 'ol/control/ScaleLine';
 import MousePosition from 'ol/control/MousePosition';
+import GeometryType from "ol/geom/GeometryType";
+import Polygon from "ol/geom/Polygon";
+import MultiPolygon from "ol/geom/MultiPolygon";
+import {NgForm} from "@angular/forms";
 
 @Component({
-  selector: 'app-show-gml-test-rd',
-  templateUrl: './show-gml-test-rd.component.html',
-  styleUrls: ['./show-gml-test-rd.component.css']
+  selector: 'app-show-gml-test-rd-centriod',
+  templateUrl: './show-gml-test-rd-centriod.component.html',
+  styleUrls: ['./show-gml-test-rd-centriod.component.css']
 })
-export class ShowGmlTestRdComponent implements OnInit, AfterViewInit {
+export class ShowGmlTestRdCentriodComponent implements OnInit, AfterViewInit {
   fileText: string;
   gmlFeatures: Feature<Geometry>[] = [];
   vectorLayer: Vector;
@@ -32,12 +36,18 @@ export class ShowGmlTestRdComponent implements OnInit, AfterViewInit {
   map: Map;
   dutchProjection: Projection;
 
+  candidateCentroid: string = '100 100';
+  internalCentriod: Coordinate;
+  middelpunt: string = '';
+  errorMessage: string = '';
+
   constructor(private httpClient: HttpClient) {
   }
 
+
   ngOnInit(): void {
     this.defineProjection();
-    this.httpClient.get('assets/test-rd2.xml', {responseType: 'text'})
+    this.httpClient.get('assets/test-rd1.xml', {responseType: 'text'})
       .subscribe(
         data => {
           console.log(data);
@@ -115,4 +125,43 @@ export class ShowGmlTestRdComponent implements OnInit, AfterViewInit {
       console.log(this.map.getView().getProjection());
     }
   }
+
+  determineInternalCentroid( form: NgForm) {
+    this.middelpunt = '<nothing>';
+    this.internalCentriod = this.calculateInternalCentroid( form.value.internalCentriod);
+    if( this.internalCentriod !== null) {
+      this.middelpunt = this.internalCentriod.toString();
+    }
+  }
+
+  calculateInternalCentroid( candidateCentriod: string): Coordinate {
+    this.internalCentriod = null;
+    if( candidateCentriod === null) {
+      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
+      return null;
+    }
+    let coordinateParts = candidateCentriod.split(" ", 2);
+    if( coordinateParts.length !== 2) {
+      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
+      return null;
+    }
+    let rdCoordToCheck: number[] = []
+    rdCoordToCheck[0] = +coordinateParts[0];
+    rdCoordToCheck[1] = +coordinateParts[1];
+    let referenceGeometry = this.vectorLayer.getSource().getFeatures()[0].getGeometry();
+    if( referenceGeometry.intersectsCoordinate( rdCoordToCheck)) {
+      if (referenceGeometry.getType() === GeometryType.POLYGON) {
+        let isAPolygon: Polygon = referenceGeometry as Polygon;
+        this.internalCentriod = isAPolygon.getInteriorPoint().getCoordinates();
+      } if (referenceGeometry.getType() === GeometryType.MULTI_POLYGON) {
+        let isAPolygon: MultiPolygon = referenceGeometry as MultiPolygon;
+        const multiPoint = isAPolygon.getInteriorPoints();
+        if( multiPoint !== null) {
+          this.internalCentriod = multiPoint.getPoint( 0).getCoordinates();
+        }
+      }
+    }
+    return this.internalCentriod;
+  }
+
 }
