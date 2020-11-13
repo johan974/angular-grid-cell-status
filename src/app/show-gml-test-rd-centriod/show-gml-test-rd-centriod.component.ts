@@ -23,6 +23,7 @@ import Polygon from "ol/geom/Polygon";
 import MultiPolygon from "ol/geom/MultiPolygon";
 import {NgForm} from "@angular/forms";
 import Point from "ol/geom/Point";
+import {GeometryInternalCentroidService} from "../services/geometry-internal-centroid.service";
 
 @Component({
   selector: 'app-show-gml-test-rd-centriod',
@@ -42,7 +43,7 @@ export class ShowGmlTestRdCentriodComponent implements OnInit, AfterViewInit {
   middelpunt: string = '';
   errorMessage: string = '';
 
-  constructor(private httpClient: HttpClient) {
+  constructor(private httpClient: HttpClient, private geometryInternalCentroidService: GeometryInternalCentroidService) {
   }
 
 
@@ -129,47 +130,14 @@ export class ShowGmlTestRdCentriodComponent implements OnInit, AfterViewInit {
 
   determineInternalCentroid( form: NgForm) {
     this.middelpunt = '<nothing>';
-    this.internalCentriod = this.calculateInternalCentroid( form.value.candidateCentroid);
+    this.internalCentriod = this.geometryInternalCentroidService.calculateInternalCentroid(
+      this.vectorLayer.getSource().getFeatures()[0].getGeometry(),
+      form.value.candidateCentroid);
     if( this.internalCentriod !== null) {
-      this.middelpunt = toStringXY( this.internalCentriod);
+      this.middelpunt = this.geometryInternalCentroidService.coordinateToRdString( this.internalCentriod);
     }
   }
 
-  calculateInternalCentroid( candidateCentriod: string): Coordinate {
-    this.internalCentriod = null;
-    const rdCoordToCheck = this.convertStringToCoordinate( candidateCentriod);
-    let referenceGeometry = this.vectorLayer.getSource().getFeatures()[0].getGeometry();
-    if( ! referenceGeometry.intersectsCoordinate( rdCoordToCheck)) {
-      if (referenceGeometry.getType() === GeometryType.POLYGON) {
-        let isAPolygon: Polygon = referenceGeometry as Polygon;
-        this.internalCentriod = isAPolygon.getInteriorPoint().getCoordinates();
-      } if (referenceGeometry.getType() === GeometryType.MULTI_POLYGON) {
-        let isAPolygon: MultiPolygon = referenceGeometry as MultiPolygon;
-        const multiPoint = isAPolygon.getInteriorPoints();
-        if( multiPoint !== null) {
-          this.internalCentriod = multiPoint.getPoint( 0).getCoordinates();
-        }
-      }
-    } else {
-      return rdCoordToCheck;
-    }
-    return this.internalCentriod;
-  }
 
-  convertStringToCoordinate( coordinateString: string): Coordinate {
-    if( coordinateString === null) {
-      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
-      return null;
-    }
-    let coordinateStringParts = coordinateString.split(" ", 2);
-    if( coordinateStringParts.length !== 2) {
-      this.errorMessage = 'Not a valid RD coordinate: rdX rdY';
-      return null;
-    }
-    let coordinateParts: number[] = []
-    coordinateParts[0] = +coordinateStringParts[0];
-    coordinateParts[1] = +coordinateStringParts[1];
-    return coordinateParts;
-  }
 
 }
