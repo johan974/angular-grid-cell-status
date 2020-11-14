@@ -80,6 +80,25 @@ describe('Geometry inernal centroid', () => {
       getInternalCentroid.calculateInternalCentroid(polygon, '60 1'))).toBe('55 45.5');
   });
 
+  it('Simple polygon with RD coords', () => {
+    const polygon = new Polygon([[[200000, 300000], [200000, 300050], [200050, 300050], [200050, 300000], [200000, 300000]]]);
+    expect(getInternalCentroid.coordinateToRdString(
+      getInternalCentroid.calculateInternalCentroid(polygon, '200000 300000'))).toBe('200000 300000');
+    expect(getInternalCentroid.coordinateToRdString(
+      getInternalCentroid.calculateInternalCentroid(polygon, '200001 300001'))).toBe('200001 300001');
+    expect(getInternalCentroid.coordinateToRdString(
+      getInternalCentroid.calculateInternalCentroid(polygon, '200100 300001'))).toBe('200025 300025');
+    expect(getInternalCentroid.coordinateToRdString(
+      getInternalCentroid.calculateInternalCentroid(polygon, '200100 300100'))).toBe('200025 300025');
+    expect(getInternalCentroid.coordinateToRdString(
+      getInternalCentroid.calculateInternalCentroid(polygon, '200050 300050'))).toBe('200025 300025');
+    expect(getInternalCentroid.coordinateToRdString(
+      getInternalCentroid.calculateInternalCentroid(polygon, '200025 300025'))).toBe('200025 300025');
+    expect(getInternalCentroid.coordinateToRdString(
+      getInternalCentroid.calculateInternalCentroid(polygon, '200000 300050'))).toBe('200025 300025');
+
+  });
+
   it('Multi polygon', () => {
     const polygonlist = [];
     polygonlist.push(new Polygon([[[0, 0], [0, 50], [50, 50], [50, 0], [0, 0]]]));
