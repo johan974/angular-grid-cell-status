@@ -1,0 +1,26 @@
+{"type":"FeatureCollection",
+  "features":[
+    {"type":"Feature",
+      "properties":  { "status":"S", "name": "feature-is-good" },
+      "geometry": {
+        "type":"Polygon",
+        "coordinates":[[[175563, 445818], [175063, 445818], [175063, 447318], [175563, 447318], [175563, 445818]]]
+      }
+    },
+    { "type":"Feature",
+      "properties":  { "name": "linestring" },
+      "geometry": {
+        "type":"LineString",
+        "coordinates": [[174663, 444918], [174163, 444918], [175163, 446418], [174663, 446418], [174663, 444918]]
+      }
+    },
+    {
+      "type": "Feature",
+      "properties": { "name": "a point" },
+      "geometry": {
+        "type": "Point",
+        "coordinates": [175063, 445318]
+      }
+    }
+  ]
+}

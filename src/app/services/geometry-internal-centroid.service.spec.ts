@@ -11,91 +11,91 @@ describe('Geometry inernal centroid', () => {
   it('Simple polygon', () => {
     const polygon = new Polygon([[[0, 0], [0, 50], [50, 50], [50, 0], [0, 0]]]);
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '0 0'))).toBe('0 0');
+      getInternalCentroid.determineInternalCentroid(polygon, [0, 0]))).toBe('0 0');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '1 1'))).toBe('1 1');
+      getInternalCentroid.determineInternalCentroid(polygon, [1, 1]))).toBe('1 1');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '100 1'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(polygon, [100, 1]))).toBe('25 25');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '100 100'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(polygon, [100,100]))).toBe('25 25');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '50 50'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(polygon, [50, 50]))).toBe('25 25');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '25 25'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(polygon, [25, 25]))).toBe('25 25');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '0 50'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(polygon, [0, 50]))).toBe('25 25');
   });
 
   it('L shape polygon', () => {
     const polygon = new Polygon([[[1, 1], [1, 90], [10, 90], [10, 10], [60, 10], [60, 1], [1, 1]]]);
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '0 0'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [0, 0]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '1 1'))).toBe('1 1');
+      getInternalCentroid.determineInternalCentroid(polygon, [1, 1]))).toBe('1 1');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '100 1'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [100, 1]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '100 100'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [100, 100]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '50 50'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [50, 50]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '1 90'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [1, 90]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '10 10'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [10, 10]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '30 30'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [30, 30]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '11 11'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [11, 11]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '50 50'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [50, 50]))).toBe('5.5 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '10 90'))).toBe('5.5 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [10, 90]))).toBe('5.5 45.5');
   });
 
   it('U shape polygon', () => {
     const polygon = new Polygon([[[1, 1], [1, 90], [10, 90], [10, 10], [50, 10], [50, 90], [60, 90], [60, 1], [1, 1]]]);
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '0 0'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [0, 0]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '1 1'))).toBe('1 1');
+      getInternalCentroid.determineInternalCentroid(polygon, [1, 1]))).toBe('1 1');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '100 1'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [100, 1]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '100 100'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [100, 100]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '30 30'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [30, 30]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '11 11'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [11, 11]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '50 50'))).toBe('50 50');
+      getInternalCentroid.determineInternalCentroid(polygon, [50, 50]))).toBe('50 50');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '1 90'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [1, 90]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '10 10'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [10, 10]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '10 90'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [10, 90]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '60 10'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [60, 10]))).toBe('55 45.5');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '60 1'))).toBe('55 45.5');
+      getInternalCentroid.determineInternalCentroid(polygon, [60, 1]))).toBe('55 45.5');
   });
 
   it('Simple polygon with RD coords', () => {
     const polygon = new Polygon([[[200000, 300000], [200000, 300050], [200050, 300050], [200050, 300000], [200000, 300000]]]);
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '200000 300000'))).toBe('200000 300000');
+      getInternalCentroid.determineInternalCentroid(polygon, [200000, 300000]))).toBe('200000 300000');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '200001 300001'))).toBe('200001 300001');
+      getInternalCentroid.determineInternalCentroid(polygon, [200001, 300001]))).toBe('200001 300001');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '200100 300001'))).toBe('200025 300025');
+      getInternalCentroid.determineInternalCentroid(polygon, [200100, 300001]))).toBe('200025 300025');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '200100 300100'))).toBe('200025 300025');
+      getInternalCentroid.determineInternalCentroid(polygon, [200100, 300100]))).toBe('200025 300025');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '200050 300050'))).toBe('200025 300025');
+      getInternalCentroid.determineInternalCentroid(polygon, [200050, 300050]))).toBe('200025 300025');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '200025 300025'))).toBe('200025 300025');
+      getInternalCentroid.determineInternalCentroid(polygon, [200025, 300025]))).toBe('200025 300025');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(polygon, '200000 300050'))).toBe('200025 300025');
+      getInternalCentroid.determineInternalCentroid(polygon, [200000, 300050]))).toBe('200025 300025');
 
   });
 
@@ -105,31 +105,19 @@ describe('Geometry inernal centroid', () => {
     polygonlist.push(new Polygon([[[100, 0], [100, 50], [150, 50], [150, 0], [100, 0]]]));
     const multipolygon = new MultiPolygon(polygonlist);
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(multipolygon, '0 0'))).toBe('0 0');
+      getInternalCentroid.determineInternalCentroid(multipolygon, [0, 0]))).toBe('0 0');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(multipolygon, '1 1'))).toBe('1 1');
+      getInternalCentroid.determineInternalCentroid(multipolygon, [1, 1]))).toBe('1 1');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(multipolygon, '100 1'))).toBe('100 1');
+      getInternalCentroid.determineInternalCentroid(multipolygon, [100, 1]))).toBe('100 1');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(multipolygon, '100 100'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(multipolygon, [100, 100]))).toBe('25 25');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(multipolygon, '50 50'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(multipolygon, [50, 50]))).toBe('25 25');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(multipolygon, '25 25'))).toBe('25 25');
+      getInternalCentroid.determineInternalCentroid(multipolygon, [25, 25]))).toBe('25 25');
     expect(getInternalCentroid.coordinateToRdString(
-      getInternalCentroid.calculateInternalCentroid(multipolygon, '0 50'))).toBe('25 25');
-  });
-
-  it('Error messages', () => {
-    const polygon = new Polygon([[[1, 1], [1, 90], [10, 90], [10, 10], [60, 10], [60, 1], [1, 1]]]);
-    expect( getInternalCentroid.calculateInternalCentroid(polygon, '0')).toBeNull();
-    expect( getInternalCentroid.errorMessage).toBe( 'Invalid coordinate string (number of parts): 0');
-
-    expect( getInternalCentroid.calculateInternalCentroid(polygon, '')).toBeNull();
-    expect( getInternalCentroid.errorMessage).toBe( 'Invalid coordinate string (number of parts): ');
-
-    const polygonError = new Polygon([[[1, 1], [1, 90], [10, 90], [10, 10]]]);
-    expect( getInternalCentroid.calculateInternalCentroid(polygonError, '')).toBeNull();
+      getInternalCentroid.determineInternalCentroid(multipolygon, [0, 50]))).toBe('25 25');
   });
 
   it('Read from WKT', () => {

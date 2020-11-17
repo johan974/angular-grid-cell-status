@@ -8,65 +8,56 @@ import Circle from 'ol/geom/Circle';
 import {throwError} from 'rxjs';
 import WKT from 'ol/format/WKT';
 import Point from "ol/geom/Point";
+import {GeometryInternalCentroid} from "./geometry-internal-centroid.model";
 
 @Injectable()
 export class GeometryInternalCentroidService {
   errorMessage = '';
 
-  calculateInternalCentroid(referenceGeometry: Geometry, candidateCentriod: string): Coordinate {
-    let internalCentriod: Coordinate = null;
-    let rdCoordToCheck: Coordinate;
-    try {
-      rdCoordToCheck = this.convertStringToCoordinate(candidateCentriod);
-    } catch (e) {
-      this.errorMessage = e.message;
-      return null;
-    }
-    if (!referenceGeometry.intersectsCoordinate(rdCoordToCheck)) {
+  // Bepaal het juiste middelpunt binnen het object: geometrie en kandidaat middelpunt (coordinaat)
+  determineInternalCentroid(referenceGeometry: Geometry, candidateCentriod: Coordinate): GeometryInternalCentroid {
+    const calculateStatus: GeometryInternalCentroid = new GeometryInternalCentroid();
+    calculateStatus.coordinate = candidateCentriod;
+    if (!referenceGeometry.intersectsCoordinate(calculateStatus.coordinate)) {
       if (referenceGeometry.getType() === GeometryType.POLYGON) {
         const isAPolygon: Polygon = referenceGeometry as Polygon;
-        internalCentriod = isAPolygon.getInteriorPoint().getCoordinates();
+        calculateStatus.coordinate = isAPolygon.getInteriorPoint().getCoordinates();
       } else if (referenceGeometry.getType() === GeometryType.MULTI_POLYGON) {
         const isAPolygon: MultiPolygon = referenceGeometry as MultiPolygon;
         const multiPoint = isAPolygon.getInteriorPoints();
         if (multiPoint !== null) {
-          internalCentriod = multiPoint.getPoint(0).getCoordinates();
+          calculateStatus.coordinate = multiPoint.getPoint(0).getCoordinates();
         }
       } else if (referenceGeometry.getType() === GeometryType.CIRCLE) {
         const isAPolygon: Circle = referenceGeometry as Circle;
-        internalCentriod = isAPolygon.getCenter();
+        calculateStatus.coordinate = isAPolygon.getCenter();
       } else {
         throwError('Geometry with centroid not in the geometry is not Polygon, MultiPolygon or Circle');
       }
+      calculateStatus.isChanged = true;
     } else {
-      return rdCoordToCheck;
+      calculateStatus.isChanged = false;
+      return calculateStatus;
     }
-    return internalCentriod;
+    return calculateStatus;
   }
 
-  coordinateToRdString(coordinate: Coordinate): string {
-    if (coordinate !== null) {
-      const nums = coordinate.slice(0, 2);
-      return '' + nums[0] + ' ' + nums[1];
+  coordinateToRdString(centroid: GeometryInternalCentroid): string {
+    if (centroid !== null && centroid.coordinate !== null) {
+      return '' + centroid.coordinate[0] + ' ' + centroid.coordinate[1];
     }
     return '';
   }
 
   convertStringToCoordinate(coordinateString: string): Coordinate {
-    if (coordinateString === null) {
-      throw new Error('Invalid coordinate string: ' + coordinateString);
-    }
-    const coordinateStringParts = coordinateString.split(' ', 2);
-    if (coordinateStringParts === null || coordinateStringParts.length !== 2) {
+    if (!/\s/.test(coordinateString)) {
       throw new Error('Invalid coordinate string (number of parts): ' + coordinateString);
     }
-    const coordinateParts: number[] = [];
-    coordinateParts[0] = +coordinateStringParts[0];
-    coordinateParts[1] = +coordinateStringParts[1];
-    return coordinateParts;
+    return coordinateString.split(' ', 2).map(x => +x);
   }
 
   readRdCoordinate(wkt: string): Coordinate {
+    // As long as we are working with this RD projection, we can keep it simple
     // const geometry = new WKT().readGeometry(wkt, {
     //   dataProjection: 'EPSG:28992',
     //   featureProjection: 'EPSG:28992'
@@ -80,12 +71,18 @@ export class GeometryInternalCentroidService {
   }
 
   readRdGeometry(wkt: string): Geometry {
+    // As long as we are working with this RD projection, we can keep it simple
     // return new WKT().readGeometry(wkt, {
     //   dataProjection: 'EPSG:28992',
     //   featureProjection: 'EPSG:28992'
     // });
     const geometry = new WKT().readGeometry(wkt);
     return geometry;
+  }
+
+  writeCoordinateAsWkt(coordinate: Coordinate): string {
+    // There is not direct WKT() utility method for this
+    return 'POINT(' + coordinate[0] + ' ' + coordinate[1] + ')';
   }
 
 }

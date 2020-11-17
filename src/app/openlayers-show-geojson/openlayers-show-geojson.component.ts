@@ -60,11 +60,11 @@ export class OpenlayersShowGeojsonComponent implements AfterViewInit {
     //   style: [polygonStyle]
     // });
     this.map = new Map({
-      target: "map",
+      target: 'map',
       layers: [
         new TileLayer({
           source: new XYZ({
-            url: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+            url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
           })
         }),
         new VectorLayer({

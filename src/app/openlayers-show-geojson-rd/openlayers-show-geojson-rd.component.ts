@@ -13,6 +13,8 @@ import {get as GetProjection, transform} from "ol/proj";
 import proj4 from "proj4";
 import {register} from "ol/proj/proj4";
 import Projection from "ol/proj/Projection";
+import GeometryType from "ol/geom/GeometryType";
+import CircleStyle from "ol/style/Circle";
 
 @Component({
   selector: 'app-openlayers-show-geojson-rd',
@@ -44,22 +46,38 @@ export class OpenlayersShowGeojsonRdComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit() {
-    let polygonStyleSuccess = new Style({
+    const polygonStyleSuccess = new Style({
       fill: new Fill({
-        color: "rgba(255, 0, 0, 0.5)"
+        color: 'rgba(255, 0, 0, 0.5)'
       }),
       stroke: new Stroke({
-        color: "#ff2211",
+        color: '#ff2211',
         width: 7
       })
     });
-    let polygonStyleFailed = new Style({
+    const polygonStyleFailed = new Style({
       fill: new Fill({
-        color: "rgba(0, 0, 255, 0.5)"
+        color: 'rgba(0, 0, 255, 0.5)'
       }),
       stroke: new Stroke({
-        color: "#22ccff",
+        color: '#22ccff',
         width: 7
+      })
+    });
+    const lineStyle = new Style({
+      fill: new Fill({
+        color: 'rgba(0, 255, 0, 0.8)'
+      }),
+      stroke: new Stroke({
+        color: '#00ff33',
+        width: 7
+      })
+    });
+    const pointStyle = new Style({
+      image: new CircleStyle({
+        radius: 5,
+        fill: null,
+        stroke: new Stroke({color: 'blue', width: 3})
       })
     });
     // let vectorSource = new VectorSource({features: []});
@@ -68,21 +86,28 @@ export class OpenlayersShowGeojsonRdComponent implements OnInit, AfterViewInit {
     //   style: [polygonStyle]
     // });
     this.map = new Map({
-        target: "map",
+        target: 'map',
         layers: [
           new TileLayer({
             source: new XYZ({
-              url: "https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              url: 'https://{a-c}.tile.openstreetmap.org/{z}/{x}/{y}.png'
             })
           }),
           new VectorLayer({
             source: new VectorSource({
               format: new GeoJSON({dataProjection: 'EPSG:28992', featureProjection: 'EPSG:28992'}),
-              url: 'assets/polygon.geo.json',
+              // url: 'assets/polygon.geo.json',
+              url: 'assets/polygon-and-line.geo.json'
             }),
-            style: function (feature, resolution) {
-              const status = feature.get('status').toUpperCase();
-              return status === 'S' ? polygonStyleSuccess : polygonStyleFailed;
+            style(feature, resolution) {
+              if (feature.getGeometry().getType() === GeometryType.POLYGON) {
+                const status = feature.get('status').toUpperCase();
+                return status === 'S' ? polygonStyleSuccess : polygonStyleFailed;
+              } else if (feature.getGeometry().getType() === GeometryType.LINE_STRING) {
+                return lineStyle;
+              } else {
+                return pointStyle;
+              }
             }
           })
         ],

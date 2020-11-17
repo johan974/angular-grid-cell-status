@@ -14,16 +14,13 @@ import proj4 from 'proj4';
 import {register} from 'ol/proj/proj4';
 import {get as GetProjection} from 'ol/proj';
 import WFS from 'ol/format/WFS';
-import {Coordinate, createStringXY, toStringXY} from 'ol/coordinate';
+import {Coordinate, createStringXY} from 'ol/coordinate';
 import GML3 from 'ol/format/GML3';
 import ScaleLine from 'ol/control/ScaleLine';
 import MousePosition from 'ol/control/MousePosition';
-import GeometryType from "ol/geom/GeometryType";
-import Polygon from "ol/geom/Polygon";
-import MultiPolygon from "ol/geom/MultiPolygon";
-import {NgForm} from "@angular/forms";
-import Point from "ol/geom/Point";
-import {GeometryInternalCentroidService} from "../services/geometry-internal-centroid.service";
+import {NgForm} from '@angular/forms';
+import {GeometryInternalCentroidService} from '../services/geometry-internal-centroid.service';
+import {GeometryInternalCentroid} from "../services/geometry-internal-centroid.model";
 
 @Component({
   selector: 'app-show-gml-test-rd-centriod',
@@ -38,10 +35,10 @@ export class ShowGmlTestRdCentriodComponent implements OnInit, AfterViewInit {
   map: Map;
   dutchProjection: Projection;
 
-  candidateCentroid: string = '100 100';
-  internalCentriod: Coordinate;
-  middelpunt: string = '';
-  errorMessage: string = '';
+  candidateCentroid: Coordinate = [100, 100];
+  internalCentriod: GeometryInternalCentroid;
+  middelpunt = '';
+  errorMessage = '';
 
   constructor(private httpClient: HttpClient, private geometryInternalCentroidService: GeometryInternalCentroidService) {
   }
@@ -128,16 +125,19 @@ export class ShowGmlTestRdCentriodComponent implements OnInit, AfterViewInit {
     }
   }
 
-  determineInternalCentroid( form: NgForm) {
-    this.middelpunt = '<nothing>';
-    this.internalCentriod = this.geometryInternalCentroidService.calculateInternalCentroid(
-      this.vectorLayer.getSource().getFeatures()[0].getGeometry(),
-      form.value.candidateCentroid);
-    if( this.internalCentriod !== null) {
-      this.middelpunt = this.geometryInternalCentroidService.coordinateToRdString( this.internalCentriod);
+  determineInternalCentroid(form: NgForm) {
+    this.errorMessage = '';
+    try {
+      this.middelpunt = form.value.candidateCentroid;
+      const coordinate = this.geometryInternalCentroidService.convertStringToCoordinate(form.value.candidateCentroid);
+      this.internalCentriod = this.geometryInternalCentroidService.determineInternalCentroid(
+        this.vectorLayer.getSource().getFeatures()[0].getGeometry(), coordinate);
+      if (this.internalCentriod !== null) {
+        this.middelpunt = this.geometryInternalCentroidService.coordinateToRdString(this.internalCentriod);
+      }
+    } catch (e) {
+      this.errorMessage = e.message;
     }
+
   }
-
-
-
 }
