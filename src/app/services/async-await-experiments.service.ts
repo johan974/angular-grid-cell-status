@@ -36,3 +36,7 @@
 //     });
 //   return promise;
 // }
+// async getSettingsBasedOnEnvironment() {
+//   console.log( 'Start getting settings ... ');
+//   return await this.httpClient.get<Settings>(this.apiUrl + '/settings').toPromise()
+// }
