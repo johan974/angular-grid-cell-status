@@ -19,10 +19,10 @@ import {OpenlayersShowGml2Wfs100Component} from './openlayers-show-gml2-wfs100/o
 import {ShowGmlRdBrtComponent} from './show-gml-rd-brt/show-gml-rd-brt.component';
 import {ShowGmlRdComponent} from './show-gml-rd/show-gml-rd.component';
 import {ShowGmlTestRdComponent} from './show-gml-test-rd/show-gml-test-rd.component';
-import { ShowGmlTestRdCentriodComponent } from './show-gml-test-rd-centriod/show-gml-test-rd-centriod.component';
-import {FormsModule} from "@angular/forms";
-import {GeometryInternalCentroidService} from "./services/geometry-internal-centroid.service";
-import { OpenlayersShowGeojsonDynoStylesComponent } from './openlayers-show-geojson-dyno-styles/openlayers-show-geojson-dyno-styles.component';
+import {ShowGmlTestRdCentriodComponent} from './show-gml-test-rd-centriod/show-gml-test-rd-centriod.component';
+import {FormsModule} from '@angular/forms';
+import {GeometryInternalCentroidService} from './services/geometry-internal-centroid.service';
+import {OpenlayersShowGeojsonDynoStylesComponent} from './openlayers-show-geojson-dyno-styles/openlayers-show-geojson-dyno-styles.component';
 
 @NgModule({
   declarations: [
@@ -56,3 +56,29 @@ import { OpenlayersShowGeojsonDynoStylesComponent } from './openlayers-show-geoj
 })
 export class AppModule {
 }
+
+/*
+ * Methode 1:
+ * Bovenin:
+ * export function appInit(bgtKaartTools: BgtKaartTools) {
+ *  return () => bgtKaartTools.load2();
+ * }
+ * Providers:
+ *   providers: [AppData, BgtKaartTools,
+    {
+      provide: APP_INITIALIZER,
+      useFactory: appInit,
+      deps: [BgtKaartTools],
+      multi: true
+    }],
+
+ * Methode 2:
+ *  providers: [ThemeService
+ *    useFactory: (themeService: ThemeService) => {
+      return () => {
+          console.log('APP_INITIALIZER::themeService.loadThemes()');
+          themeService.loadThemes();
+        };
+      },
+ *
+ */
