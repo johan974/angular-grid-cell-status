@@ -22,6 +22,7 @@ import {ShowGmlTestRdComponent} from './show-gml-test-rd/show-gml-test-rd.compon
 import { ShowGmlTestRdCentriodComponent } from './show-gml-test-rd-centriod/show-gml-test-rd-centriod.component';
 import {FormsModule} from "@angular/forms";
 import {GeometryInternalCentroidService} from "./services/geometry-internal-centroid.service";
+import { OpenlayersShowGeojsonDynoStylesComponent } from './openlayers-show-geojson-dyno-styles/openlayers-show-geojson-dyno-styles.component';
 
 @NgModule({
   declarations: [
@@ -40,7 +41,8 @@ import {GeometryInternalCentroidService} from "./services/geometry-internal-cent
     ShowGmlRdBrtComponent,
     ShowGmlRdComponent,
     ShowGmlTestRdComponent,
-    ShowGmlTestRdCentriodComponent
+    ShowGmlTestRdCentriodComponent,
+    OpenlayersShowGeojsonDynoStylesComponent
   ],
   imports: [
     BrowserModule,

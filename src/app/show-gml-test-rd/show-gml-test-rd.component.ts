@@ -26,6 +26,7 @@ import MousePosition from 'ol/control/MousePosition';
 })
 export class ShowGmlTestRdComponent implements OnInit, AfterViewInit {
   fileText: string;
+  errorMessage = '';
   gmlFeatures: Feature<Geometry>[] = [];
   vectorLayer: Vector;
   vectorSource: VectorSource;
@@ -37,7 +38,7 @@ export class ShowGmlTestRdComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     this.defineProjection();
-    this.httpClient.get('assets/test-rd2.xml', {responseType: 'text'})
+    this.httpClient.get('assets/test-rd1.xml', {responseType: 'text'})
       .subscribe(
         data => {
           console.log(data);
@@ -52,6 +53,7 @@ export class ShowGmlTestRdComponent implements OnInit, AfterViewInit {
           this.addGmlFeatures();
         },
         error => {
+          this.errorMessage = error.message;
           console.log(error);
         }
       );
